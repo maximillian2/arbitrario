@@ -1,29 +1,23 @@
-# README #
+# Magma #
+![Magma Image](https://photos-6.dropbox.com/t/2/AADHnRDNM52pIMWjt0pSDMscCxf2_72Hi0KJSe_oFUDcpQ/12/39946975/png/32x32/1/_/1/2/magma-text.png/EL-avR4YzPEFIAcoBw/A1nOe278pR4hzRqGld6ZOQdFgdgm1F-IRuyZzimvXpg?size=2048x1536&size_mode=3)
 
-This README would normally document whatever steps are necessary to get your application up and running.
+### Magma is an application that can help solving combinatoric optimized problems
 
-### What is this repository for? ###
+Version: 1.0-alpha
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+### What's inside? ###
 
-### How do I get set up? ###
+* 3 realizations of travelling salesman problem ([@dag4202](https://github.com/dag4202))
+* CLI mode
+    - jCommander to parse command-line keys
+* GUI mode
+    - JavaFx as GUI framework
+* SQLite database to hold calculated results
+* Import data from file
+* JAR packaged application
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+### TODOs ###
 
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+* Tests
+* Add fourth realization of problem
+* Rework JavaFx main window to freely resize its content
