@@ -25,7 +25,7 @@
 package nau.magma.cli;
 
 import com.beust.jcommander.ParameterException;
-import com.sun.istack.internal.Nullable;
+import com.beust.jcommander.internal.Nullable;
 import nau.magma.IApplicationable;
 import nau.magma.Util;
 import nau.magma.travelling_salesman.Graph;
@@ -142,7 +142,7 @@ public class MagmaCLI implements IApplicationable {
    *
    * @return {@link Graph}
    */
-  @Nullable
+  @javax.annotation.Nullable
   private Graph getProblemDataFromConsole() {
     Graph graph;
     try {
