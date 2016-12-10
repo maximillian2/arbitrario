@@ -1,4 +1,3 @@
-# Magma #
 ![Magma Image](https://photos-6.dropbox.com/t/2/AADHnRDNM52pIMWjt0pSDMscCxf2_72Hi0KJSe_oFUDcpQ/12/39946975/png/32x32/1/_/1/2/magma-text.png/EL-avR4YzPEFIAcoBw/A1nOe278pR4hzRqGld6ZOQdFgdgm1F-IRuyZzimvXpg?size=2048x1536&size_mode=3)
 
 ### Magma is an application that can help solving combinatoric optimized problems
