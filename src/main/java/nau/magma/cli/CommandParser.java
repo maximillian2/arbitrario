@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+package nau.magma.cli;
+
 import com.beust.jcommander.Parameter;
 
 /**
@@ -39,7 +41,7 @@ public class CommandParser {
   public boolean isGUI = false;
 
   /**
-   * Parameter describes algorithm number and validates it with class CorrectAlgorithm
+   * Parameter describes algorithm number and validates it with class nau.magma.cli.CorrectAlgorithm
    *
    * @see CorrectAlgorithm
    */

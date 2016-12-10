@@ -22,42 +22,32 @@
  * SOFTWARE.
  */
 
-import com.beust.jcommander.JCommander;
+package nau.magma.cli;
+
+import com.beust.jcommander.IParameterValidator;
 import com.beust.jcommander.ParameterException;
 
 /**
- * Initial class
+ * Class to validate algorithm number given as command-line parameter.
  *
  * @author Maksym Tymoshyk
- * @see JCommander
+ * @version 1.0
+ * @see IParameterValidator
  */
-public class Main {
-  public static void main(String[] args) {
-    try {
-      System.out.println("Welcome to MAGMA Problem Solver! ");
-      CommandParser cp = new CommandParser();
-      JCommander jc = new JCommander(cp, args);
-      jc.setProgramName("magma");
+public class CorrectAlgorithm implements IParameterValidator {
+  /**
+   * Checks parameter and its value to be in valid range
+   *
+   * @param name  parameter name
+   * @param value value of parameter
+   * @throws ParameterException if parameter does not fit right value
+   */
+  public void validate(String name, String value) throws ParameterException {
+    final int MAX_ALGORITHM_NUMBER = 3;
 
-      if (cp.help) {
-        jc.usage();
-        return;
-      }
-
-      if (cp.isGUI) {
-        // launches JavaFx application
-        MagmaGUI gui = new MagmaGUI();
-        gui.getData(cp);
-        gui.run();
-      } else {
-        // launches CLI application
-        MagmaCLI cli = new MagmaCLI();
-        cli.getData(cp);
-        cli.run();
-      }
-      // catches exceptions on console parameter setting stage
-    } catch (ParameterException e) {
-      System.out.println(e.getMessage());
-    }
+    int n = Integer.parseInt(value);
+    if (n < 1 || n > MAX_ALGORITHM_NUMBER)
+      throw new ParameterException("Parameter " + name + " should be in range 1-" + MAX_ALGORITHM_NUMBER +
+          " (found " + value + ") ");
   }
 }

@@ -22,13 +22,47 @@
  * SOFTWARE.
  */
 
+package nau.magma;
+
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.ParameterException;
+import nau.magma.cli.CommandParser;
+import nau.magma.cli.MagmaCLI;
+import nau.magma.gui.MagmaGUI;
+
 /**
+ * Initial class
+ *
  * @author Maksym Tymoshyk
- * @see CommandParser
+ * @see JCommander
  */
+public class Main {
+  public static void main(String[] args) {
+    try {
+      System.out.println("Welcome to MAGMA Problem Solver! ");
+      CommandParser cp = new CommandParser();
+      JCommander jc = new JCommander(cp, args);
+      jc.setProgramName("magma");
 
-public interface IApplicationable {
-  void getData(CommandParser data);
+      if (cp.help) {
+        jc.usage();
+        return;
+      }
 
-  void run();
+      if (cp.isGUI) {
+        // launches JavaFx application
+        MagmaGUI gui = new MagmaGUI();
+        gui.getData(cp);
+        gui.run();
+      } else {
+        // launches CLI application
+        MagmaCLI cli = new MagmaCLI();
+        cli.getData(cp);
+        cli.run();
+      }
+      // catches exceptions on console parameter setting stage
+    } catch (ParameterException e) {
+      System.out.println(e.getMessage());
+    }
+  }
 }

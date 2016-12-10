@@ -22,16 +22,17 @@
  * SOFTWARE.
  */
 
+package nau.magma;
+
+import nau.magma.cli.CommandParser;
+
 /**
- * Created by Maksym Tymoshyk on 11/6/16.
+ * @author Maksym Tymoshyk
+ * @see CommandParser
  */
-public class MagmaGUI implements IApplicationable {
-    public void run() {
-        javafx.application.Application.launch(MainApp.class);
-    }
 
-    public void getData(CommandParser data) {
+public interface IApplicationable {
+  void getData(CommandParser data);
 
-    }
+  void run();
 }
-

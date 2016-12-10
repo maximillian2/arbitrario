@@ -22,6 +22,11 @@
  * SOFTWARE.
  */
 
+package nau.magma;
+
+import nau.magma.travelling_salesman.Edge;
+import nau.magma.travelling_salesman.Graph;
+
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -40,9 +45,8 @@ public class Util {
   /**
    * Parses data from file
    *
-   * @param filePath - absolute or relative file path
-   * @return Graph
-   * @see Graph
+   * @param filePath absolute or relative file path
+   * @return {@link Graph}
    */
   public Graph getProblemDataFromFilePath(String filePath) {
     List<String> found = new ArrayList<>();
@@ -89,11 +93,9 @@ public class Util {
   /**
    * Saves necessary result data to database
    *
-   * @param username        - current program's user name
-   * @param algorithmNumber - used algorithm number
-   * @param result          - float result value
-   * @see Connection
-   * @see PreparedStatement
+   * @param username        current program's user name
+   * @param algorithmNumber used algorithm number
+   * @param result          float result value
    */
   public void saveResultToDatabase(String username, int algorithmNumber, double result) {
     try {

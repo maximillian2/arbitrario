@@ -22,28 +22,22 @@
  * SOFTWARE.
  */
 
-import com.beust.jcommander.IParameterValidator;
-import com.beust.jcommander.ParameterException;
+package nau.magma.gui;
+
+import nau.magma.cli.CommandParser;
+import nau.magma.IApplicationable;
 
 /**
- * Class to validate algorithm number given as command-line parameter.
  * @author Maksym Tymoshyk
  * @version 1.0
- * @see IParameterValidator
  */
-public class CorrectAlgorithm implements IParameterValidator {
-    /**
-     * Checks parameter and its value to be in valid range
-     * @param name - parameter name
-     * @param value - value of parameter
-     * @throws ParameterException if parameter does not fit right value
-     */
-    public void validate(String name, String value) throws ParameterException{
-        final int MAX_ALGORITHM_NUMBER = 3;
+public class MagmaGUI implements IApplicationable {
+  public void run() {
+    javafx.application.Application.launch(MainApp.class);
+  }
 
-        int n = Integer.parseInt(value);
-        if(n < 1 || n > MAX_ALGORITHM_NUMBER)
-            throw new ParameterException("Parameter " + name + " should be in range 1-" + MAX_ALGORITHM_NUMBER +
-            " (found " + value + ") ");
-    }
+  public void getData(CommandParser data) {
+
+  }
 }
+
