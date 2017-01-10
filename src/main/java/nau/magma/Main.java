@@ -37,32 +37,43 @@ import nau.magma.gui.MagmaGUI;
  * @see JCommander
  */
 public class Main {
-  public static void main(String[] args) {
-    try {
-      System.out.println("Welcome to MAGMA Problem Solver! ");
-      CommandParser cp = new CommandParser();
-      JCommander jc = new JCommander(cp, args);
-      jc.setProgramName("magma");
+    String[] args;
 
-      if (cp.help) {
-        jc.usage();
-        return;
-      }
-
-      if (cp.isGUI) {
-        // launches JavaFx application
-        MagmaGUI gui = new MagmaGUI();
-        gui.getData(cp);
-        gui.run();
-      } else {
-        // launches CLI application
-        MagmaCLI cli = new MagmaCLI();
-        cli.getData(cp);
-        cli.run();
-      }
-      // catches exceptions on console parameter setting stage
-    } catch (ParameterException e) {
-      System.out.println(e.getMessage());
+    Main(String[] args) {
+        this.args = args;
     }
-  }
+
+    public static void main(String[] args) {
+        new Main(args).startProgram();
+    }
+
+    public void startProgram() {
+        try {
+            CommandParser cp = new CommandParser();
+            JCommander jc = new JCommander(cp, args);
+            jc.setProgramName("magma");
+
+            if (cp.usagePrinted) {
+                jc.usage();
+                return;
+            }
+
+            if (cp.guiEnabled) {
+                // launches JavaFx application
+                MagmaGUI gui = new MagmaGUI();
+                gui.getData(cp);
+                gui.run();
+            } else {
+                // launches CLI application
+                new MagmaCLI().run(cp);
+//                MagmaCLI cli = new MagmaCLI();
+//                cli.getData(cp);
+//                cli.run();
+            }
+            // catches exceptions on console parameter setting stage
+        } catch (ParameterException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
 }

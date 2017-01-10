@@ -40,83 +40,87 @@ import java.util.logging.Logger;
  * @author Maksym Tymoshyk
  */
 public class Util {
-  private Logger logger = Logger.getLogger(Util.class.getName());
+    private Logger logger = Logger.getLogger(Util.class.getName());
 
-  /**
-   * Parses data from file
-   *
-   * @param filePath absolute or relative file path
-   * @return {@link Graph}
-   */
-  public Graph getProblemDataFromFilePath(String filePath) {
-    List<String> found = new ArrayList<>();
-    List<Edge> fileEdges = new ArrayList<>();
+    /**
+     * Parses data from file
+     *
+     * @param filePath absolute or relative file path
+     * @return {@link Graph}
+     */
+    // TODO: make this method static
+    public Graph getProblemDataFromFilePath(String filePath) {
+        List<String> fileLinesList = new ArrayList<>();
+        List<Edge> importedEdgesList = new ArrayList<>();
 
-    // try-with-resources technique (java 1.7+)
-    try (Scanner scanner = new Scanner(new File(filePath))) {
-      String currentLine;
-      Boolean startLineFound = false, endLineFound = false;
-      while (scanner.hasNextLine()) {
-        currentLine = scanner.nextLine();
-        System.out.println(currentLine);
+        // try-with-resources technique (java 1.7+)
+        try (Scanner scanner = new Scanner(new File(filePath))) {
+            String currentLine;
+            Boolean startLineFound = false, endLineFound = false;
+            while (scanner.hasNextLine()) {
+                currentLine = scanner.nextLine();
+                System.out.println(currentLine);
 
-        if (startLineFound) {
-          if (!endLineFound) {
-            found.add(currentLine);
-          }
+                if (startLineFound) {
+                    if (!endLineFound) {
+                        fileLinesList.add(currentLine);
+                    }
+                }
+
+                if (currentLine.startsWith("DATA")) {
+                    startLineFound = true;
+                }
+                if (currentLine.startsWith("EOF")) {
+                    endLineFound = true;
+                }
+            }
+            // TODO: try with do-while to avoid adding EOF line
+        } catch (Exception e) {
+            logger.severe(e.getLocalizedMessage());
         }
 
-        if (currentLine.startsWith("DATA"))
-          startLineFound = true;
-
-        if (currentLine.startsWith("EOF"))
-          endLineFound = true;
-      }
-    } catch (Exception e) {
-      logger.severe(e.getLocalizedMessage());
+        // delete last line containing EOF
+        fileLinesList.remove(fileLinesList.size() - 1);
+        for (String s : fileLinesList) {
+            String parsed[] = s.split(" ");
+            logger.fine("Split result: " + parsed[0] + " " + parsed[1] + " " + parsed[2]);
+            importedEdgesList.add(new Edge(Integer.parseInt(parsed[0]), Integer.parseInt(parsed[1]), Double.parseDouble(parsed[2])));
+        }
+        Graph graph = new Graph(importedEdgesList.size());
+        logger.fine("Created graph with size " + importedEdgesList.size());
+        graph.updateGraph(Arrays.copyOf(importedEdgesList.toArray(), importedEdgesList.size(), Edge[].class));
+        logger.fine("Filled with values");
+        // TODO: log graph content here
+        return graph;
     }
 
-    // delete last line containing EOF
-    found.remove(found.size() - 1);
-    for (String s : found) {
-      String parsed[] = s.split(" ");
-      logger.fine("Splitted: " + parsed[0] + " " + parsed[1] + " " + parsed[2]);
-      fileEdges.add(new Edge(Integer.parseInt(parsed[0]), Integer.parseInt(parsed[1]), Double.parseDouble(parsed[2])));
-    }
-    Graph graph = new Graph(fileEdges.size());
-    logger.fine("Created graph with size " + fileEdges.size());
-    graph.updateGraph(Arrays.copyOf(fileEdges.toArray(), fileEdges.size(), Edge[].class));
-    logger.fine("Filled with values");
-    return graph;
-  }
+    /**
+     * Saves necessary result data to database
+     *
+     * @param username        current program's user name
+     * @param algorithmNumber used algorithm number
+     * @param result          float result value
+     */
+    public void saveResultToDatabase(String username, int algorithmNumber, double result) {
+        try {
+            Class.forName("org.sqlite.JDBC");
+            String connection = "jdbc:sqlite:results.db";
+            logger.info("Connection: " + connection);
+            Connection c = DriverManager.getConnection(connection);
+            c.setAutoCommit(false);
+            logger.info("Opened database successfully");
+            PreparedStatement stmt = c.prepareStatement("insert into sample(username, algo, result) values(?,?,?)");
+            stmt.setString(1, username);
+            stmt.setInt(2, algorithmNumber);
+            stmt.setDouble(3, result);
+            stmt.executeUpdate();
+            logger.info("Records created successfully");
 
-  /**
-   * Saves necessary result data to database
-   *
-   * @param username        current program's user name
-   * @param algorithmNumber used algorithm number
-   * @param result          float result value
-   */
-  public void saveResultToDatabase(String username, int algorithmNumber, double result) {
-    try {
-      Class.forName("org.sqlite.JDBC");
-      String connection = "jdbc:sqlite:results.db";
-      logger.info("Connection: " + connection);
-      Connection c = DriverManager.getConnection(connection);
-      c.setAutoCommit(false);
-      logger.info("Opened database successfully");
-      PreparedStatement stmt = c.prepareStatement("insert into sample(username, algo, result) values(?,?,?)");
-      stmt.setString(1, username);
-      stmt.setInt(2, algorithmNumber);
-      stmt.setDouble(3, result);
-      stmt.executeUpdate();
-      logger.info("Records created successfully");
-
-      c.commit();
-      c.close();
-    } catch (Exception e) {
-      logger.severe(e.getClass().getName() + ": " + e.getMessage());
-      System.exit(0);
+            c.commit();
+            c.close();
+        } catch (Exception e) {
+            logger.severe(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+        }
     }
-  }
 }

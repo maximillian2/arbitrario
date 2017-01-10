@@ -25,7 +25,6 @@
 package nau.magma.gui;
 
 import nau.magma.cli.CommandParser;
-import nau.magma.IApplicationable;
 
 /**
  * @author Maksym Tymoshyk

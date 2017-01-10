@@ -53,7 +53,7 @@ import java.util.Random;
  * @author Dyangelo Grullon (dag4202)
  *         Part 2 of the Traveling Salesman Problem. Obtains the greedy path of a completely connected euclidean graph
  */
-public class VehicleRouting {
+public class GreedyTSP {
 
   private static DecimalFormat df = new DecimalFormat("0.00");
 

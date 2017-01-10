@@ -43,6 +43,7 @@ public class CorrectAlgorithm implements IParameterValidator {
    * @throws ParameterException if parameter does not fit right value
    */
   public void validate(String name, String value) throws ParameterException {
+    // TODO: replace this variable to field in settings file
     final int MAX_ALGORITHM_NUMBER = 3;
 
     int n = Integer.parseInt(value);

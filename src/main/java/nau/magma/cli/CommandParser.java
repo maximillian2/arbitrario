@@ -34,38 +34,41 @@ import com.beust.jcommander.Parameter;
  * @see Parameter
  */
 public class CommandParser {
-  /**
-   * Boolean if set launches GUI mode
-   */
-  @Parameter(names = "--gui", description = "Launch with graphical interface")
-  public boolean isGUI = false;
+    /**
+     * Boolean if set launches GUI mode
+     */
+    @Parameter(names = "--gui", description = "Launch with graphical interface")
+    public boolean guiEnabled = false;
 
-  /**
-   * Parameter describes algorithm number and validates it with class nau.magma.cli.CorrectAlgorithm
-   *
-   * @see CorrectAlgorithm
-   */
-  @Parameter(names = {"--algo", "-al"}, description = "Selected algorithm to be solved with: " +
-      "1 -> Travelling Salesman; " + "2 -> Vehicle Routing; " + "3 -> Hamiltonian Cycle",
-      validateWith = CorrectAlgorithm.class)
-  public Integer selectedAlgo;
+    /**
+     * Parameter describes algorithm number and validates it with class nau.magma.cli.CorrectAlgorithm
+     * <p><ul>
+     * <li>1 - OptimalTSP</li>
+     * <li>2 - GreedyTSP</li>
+     * <li>3 - MstTSP</li>
+     * </ul></p>
+     *
+     * @see CorrectAlgorithm
+     */
+    @Parameter(names = {"--algorithm", "-al"}, validateWith = CorrectAlgorithm.class)
+    public Integer algorithmNumber;
 
-  /**
-   * Parameter if set will save result data to database
-   */
-  @Parameter(names = "--save", description = "Save results to database for future operations")
-  public boolean isSaved = false;
+    /**
+     * Parameter if set will save result data to database
+     */
+    @Parameter(names = {"--save", "-s"}, description = "Save results to database for future operations")
+    public boolean resultSaved = false;
 
-  /**
-   * Parameter holds import file path to get values
-   */
-  @Parameter(names = {"--import", "-i"}, description = "Import input data from external file")
-  public String filePath;
+    /**
+     * Parameter holds import file path to get values
+     */
+    @Parameter(names = {"--import", "-i"}, description = "Import data from external file")
+    public String importFilePath;
 
-  /**
-   * Boolean if set prints out help message
-   */
-  @Parameter(names = {"--help", "--usage"}, description = "Print this message", help = true)
-  public boolean help;
+    /**
+     * Boolean if set prints out help message
+     */
+    @Parameter(names = {"--help", "--usage"}, description = "Print this message", help = true)
+    public boolean usagePrinted;
 
 }

@@ -32,7 +32,7 @@ import java.text.DecimalFormat;
  *         Determines an approximation of an optimal path using a minimum spanning tree
  *         derived from prim's algorithm.
  */
-public class HamiltonianCycle {
+public class MstTSP {
   private static DecimalFormat df = new DecimalFormat("0.00");
 
   public double getDistance() {

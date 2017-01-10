@@ -181,7 +181,7 @@ public class DataController {
         dataModel.setResult(first.getBestDistance());
         break;
       case 2:
-        VehicleRouting second = new VehicleRouting();
+        GreedyTSP second = new GreedyTSP();
         second.solveGraph(graph);
         for (Edge e : second.getEdges(graph)) {
           status.appendText(e.toString() + "\n");
@@ -189,7 +189,7 @@ public class DataController {
         dataModel.setResult(second.getDistance());
         break;
       case 3:
-        HamiltonianCycle third = new HamiltonianCycle();
+        MstTSP third = new MstTSP();
         third.solveGraph(graph);
         for (Edge e : third.getEdges(graph)) {
           status.appendText(e.toString() + "\n");
