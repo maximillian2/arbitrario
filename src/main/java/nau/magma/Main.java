@@ -60,9 +60,7 @@ public class Main {
 
             if (cp.guiEnabled) {
                 // launches JavaFx application
-                MagmaGUI gui = new MagmaGUI();
-                gui.getData(cp);
-                gui.run();
+                javafx.application.Application.launch(MagmaGUI.class);
             } else {
                 // launches CLI application
                 new MagmaCLI().run(cp);

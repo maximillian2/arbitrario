@@ -27,12 +27,20 @@ package nau.magma.gui;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import nau.magma.Util;
-import nau.magma.travelling_salesman.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.io.File;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * Class to handle GUI part.
@@ -41,38 +49,39 @@ import java.io.File;
  * @author Maksym Tymoshyk
  * @version 1.0
  */
-public class DataController {
+public class DataController implements Initializable {
 
-  private Data dataModel = new Data();
-  private SpinnerValueFactory<Integer> valueFactory;
-  private MainApp app;
-  private ObservableList<String> algorithms = FXCollections.observableArrayList("traveling salesman", "vehicle routing", "Hamiltonian cycle");
-
-  @FXML
-  private TextField usernameField;
-
-  // Combobox holds algorithms' names from ObservableList
-  @FXML
-  private ComboBox comboBox;
-
-  // Checkbox will save result to database if checked
-  @FXML
-  private CheckBox checkbox;
-
-  // Text area that logs information while program is running
-  @FXML
-  private TextArea status;
-
-  // Spinner used to choose number of vertices to generate data automatically a.k.a. auto mode
-  @FXML
-  private Spinner spinner;
-
-  @FXML
-  private Button importFileButton;
+  private MainProgramModel mainProgramModel = new MainProgramModel();
+  private MagmaGUI app;
+  // TODO: move to config file
+  private ObservableList<String> algorithmList = FXCollections.observableArrayList("Optimal TSP", "Greedy TSP", "Mst TSP");
 
   @FXML
   private Button solveButton;
 
+  @FXML
+  private TextArea resultTextArea;
+
+  @FXML
+  private ChoiceBox<String> algorithmComboBox;
+
+  @FXML
+  private Button selectFileButton;
+
+  @FXML
+  private Button optionsButton;
+
+  @FXML
+  private Button resetAllButton;
+
+  @FXML
+  private Button helpButton;
+
+  @FXML
+  private TextField selectedFilePathTextField;
+
+  // Called first when creating object, so it doesn't see any FXML notations
+  // which are being populated right after that
   public DataController() {
   }
 
@@ -84,69 +93,79 @@ public class DataController {
    */
   @FXML
   private void handleSolveProblem() {
-    status.clear();
     StringBuilder builder = new StringBuilder();
-    builder.append("User name: ").append(usernameField.getText()).append("\n");
-    builder.append("Picked algorithm: ").append(comboBox.getSelectionModel().getSelectedItem()).append("\n");
+//    builder.append("User name: ").append(usernameField.getText()).append("\n");
+    builder.append("Picked algorithm: ").append(algorithmComboBox.getSelectionModel().getSelectedItem()).append("\n");
 
-    status.appendText(builder.toString());
+    resultTextArea.appendText(builder.toString());
 
-    dataModel.setUsername(usernameField.getText());
-    dataModel.setIsResultSaved(checkbox.isSelected());
-
-    if (!spinner.isDisabled())
-      dataModel.setSpinnerVertices((int) spinner.getValue());
-
-    if (comboBox.getSelectionModel().getSelectedItem().equals("traveling salesman")) {
-      dataModel.setPickedAlgorithm(1);
-    } else if (comboBox.getSelectionModel().getSelectedItem().equals("vehicle routing")) {
-      dataModel.setPickedAlgorithm(2);
-    } else if (comboBox.getSelectionModel().getSelectedItem().equals("Hamiltonian cycle")) {
-      dataModel.setPickedAlgorithm(3);
-    }
+//    mainProgramModel.setUsername(usernameField.getText());
+//    mainProgramModel.setIsResultSaved(checkbox.isSelected());
+//
+//    if (!spinner.isDisabled())
+//      mainProgramModel.setSpinnerVertices((int) spinner.getValue());
+//
+    if(algorithmComboBox.getSelectionModel().isSelected(0))
+//    if (algorithmComboBox.getSelectionModel().getSelectedItem().equals("traveling salesman")) {
+//      mainProgramModel.setPickedAlgorithm(1);
+//    } else if (algorithmComboBox.getSelectionModel().getSelectedItem().equals("vehicle routing")) {
+//      mainProgramModel.setPickedAlgorithm(2);
+//    } else if (algorithmComboBox.getSelectionModel().getSelectedItem().equals("Hamiltonian cycle")) {
+//      mainProgramModel.setPickedAlgorithm(3);
+//    }
     solveProblem();
-    resetStates();
-  }
-
-  private void resetStates() {
-    spinner.setDisable(false);
-    valueFactory.setValue(1);
-    importFileButton.setDisable(false);
-    solveButton.setDisable(true);
-    dataModel.setFilepath(null);
+//    resetStates();
   }
 
   @FXML
-  private void handleSpinnerMouseEvents() {
-    importFileButton.setDisable(true);
-    solveButton.setDisable(false);
+  private void handleHelpButton() {
+    Stage helpWindow = new Stage();
+    helpWindow.initModality(Modality.APPLICATION_MODAL);
+
+    VBox vb = new VBox(new Button("OK"));
+    helpWindow.setScene(new Scene(vb));
+    helpWindow.show();
+
   }
 
   @FXML
-  private void handleImportEvents() {
-    spinner.setDisable(true);
-    solveButton.setDisable(false);
-
-
+  private void handleSelectFileButton() {
     FileChooser chooser = new FileChooser();
     File selectedFile = chooser.showOpenDialog(null);
 
     if (selectedFile != null) {
-      status.setText("File selected: " + selectedFile.getName());
-      dataModel.setFilepath(selectedFile.getAbsolutePath());
+      selectedFilePathTextField.setText(selectedFile.getName());
+      selectFileButton.setDisable(true);
+
+      solveButton.setDisable(false);
+      solveButton.setDefaultButton(true);
+      solveButton.requestFocus();
+
+//      mainProgramModel.setFilepath(selectedFile.getAbsolutePath());
     } else {
-      status.setText("File selection cancelled.");
+      selectedFilePathTextField.setText("File selection cancelled.");
     }
   }
 
   @FXML
-  private void initialize() {
-    valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(2, 10, 1);
-    spinner.setValueFactory(valueFactory);
-    usernameField.setText("sample user");
-    comboBox.setItems(algorithms);
-    comboBox.getSelectionModel().selectFirst();
-    resetStates();
+  private void resetStates() {
+
+    resultTextArea.clear();
+    solveButton.setDisable(true);
+    solveButton.setDefaultButton(false);
+    selectFileButton.setDisable(false);
+    selectFileButton.requestFocus();
+
+    selectedFilePathTextField.setText("No file imported.");
+    algorithmComboBox.getSelectionModel().select(0);
+//    spinner.setDisable(false);
+//    mainProgramModel.setFilepath(null);
+  }
+
+  @FXML
+  private void handleSpinnerMouseEvents() {
+//    importFileButton.setDisable(true);
+//    solveButton.setDisable(false);
   }
 
   /**
@@ -154,7 +173,7 @@ public class DataController {
    *
    * @param mainApp object of {@link javafx.application.Application}
    */
-  public void setMainApp(MainApp mainApp) {
+  public void setMainApp(MagmaGUI mainApp) {
     this.app = mainApp;
   }
 
@@ -162,49 +181,64 @@ public class DataController {
    * Method calls corresponding algorithm realization to get solution while printing info in status area
    */
   private void solveProblem() {
-    Graph graph;
-    if (importFileButton.isDisabled()) {
-      graph = new Graph(dataModel.getSpinnerVertices());
-      status.appendText("Random generated vertices mode\n");
-    } else {
-      graph = new Util().getProblemDataFromFilePath(dataModel.getFilepath());
-      status.appendText("Import data from file mode\n");
-    }
+//    Graph graph;
+//    if (importFileButton.isDisabled()) {
+//      graph = new Graph(mainProgramModel.getSpinnerVertices());
+//      status.appendText("Random generated vertices mode\n");
+//    } else {
+//      graph = new Util().getProblemDataFromFilePath(mainProgramModel.getFilepath());
+//      status.appendText("Import data from file mode\n");
+//    }
 
-    switch (dataModel.getPickedAlgorithm()) {
-      case 1:
-        OptimalTSP first = new OptimalTSP();
-        first.solveGraph(graph);
-        for (Edge e : first.printEdges(graph)) {
-          status.appendText(e.toString() + "\n");
-        }
-        dataModel.setResult(first.getBestDistance());
-        break;
-      case 2:
-        GreedyTSP second = new GreedyTSP();
-        second.solveGraph(graph);
-        for (Edge e : second.getEdges(graph)) {
-          status.appendText(e.toString() + "\n");
-        }
-        dataModel.setResult(second.getDistance());
-        break;
-      case 3:
-        MstTSP third = new MstTSP();
-        third.solveGraph(graph);
-        for (Edge e : third.getEdges(graph)) {
-          status.appendText(e.toString() + "\n");
-        }
-        dataModel.setResult(third.getDistance());
-        break;
-    }
-
-    // after solving save to results.db if checked
-    if (dataModel.isResultSaved()) {
-      new Util().saveResultToDatabase(dataModel.getUsername(), dataModel.getPickedAlgorithm(), dataModel.getResult());
-      status.appendText("Successfully saved to database\n");
-    }
-
-    status.appendText("Result is " + dataModel.getResult() + "\n");
+//    switch (mainProgramModel.getPickedAlgorithm()) {
+//      case 1:
+//        OptimalTSP first = new OptimalTSP();
+//        first.solveGraph(graph);
+//        for (Edge e : first.printEdges(graph)) {
+//          status.appendText(e.toString() + "\n");
+//        }
+//        mainProgramModel.setResult(first.getBestDistance());
+//        break;
+//      case 2:
+//        GreedyTSP second = new GreedyTSP();
+//        second.solveGraph(graph);
+//        for (Edge e : second.getEdges(graph)) {
+//          status.appendText(e.toString() + "\n");
+//        }
+//        mainProgramModel.setResult(second.getDistance());
+//        break;
+//      case 3:
+//        MstTSP third = new MstTSP();
+//        third.solveGraph(graph);
+//        for (Edge e : third.getEdges(graph)) {
+//          status.appendText(e.toString() + "\n");
+//        }
+//        mainProgramModel.setResult(third.getDistance());
+//        break;
   }
+
+  // Called after constructor and FXML notation population
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+    algorithmComboBox.setItems(algorithmList);
+    algorithmComboBox.getSelectionModel().select(0);
+
+    selectedFilePathTextField.setEditable(false);
+    selectedFilePathTextField.setDisable(true);
+    selectedFilePathTextField.setText("No file imported.");
+
+    resultTextArea.setEditable(false);
+
+    solveButton.setDisable(true);
+  }
+
+  // after solving save to results.db if checked
+//    if (mainProgramModel.isResultSaved()) {
+//      new Util().saveResultToDatabase(mainProgramModel.getUsername(), mainProgramModel.getPickedAlgorithm(), mainProgramModel.getResult());
+//      status.appendText("Successfully saved to database\n");
+//    }
+//
+//    status.appendText("Result is " + mainProgramModel.getResult() + "\n");
+//  }
 
 }

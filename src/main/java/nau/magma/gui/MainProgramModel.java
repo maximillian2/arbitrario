@@ -33,14 +33,14 @@ import javafx.beans.property.*;
  * @author Maksym Tymoshyk
  * @version 1.0
  */
-public class Data {
-  private final StringProperty username;
-  private final BooleanProperty isResultSaved;
+public class MainProgramModel {
+//  private final StringProperty username;
+//  private final BooleanProperty isResultSaved;
   private final DoubleProperty result;
 
   private final IntegerProperty pickedAlgorithm;
-  private final IntegerProperty spinnerVertices;
-  private final StringProperty inputData;
+//  private final IntegerProperty spinnerVertices;
+//  private final StringProperty inputData;
   private final StringProperty filepath;
 
   public double getResult() {
@@ -68,39 +68,39 @@ public class Data {
     this.filepath.set(filepath);
   }
 
-  public int getSpinnerVertices() {
-    return spinnerVertices.get();
-  }
+//  public int getSpinnerVertices() {
+//    return spinnerVertices.get();
+//  }
 
 
-  public void setSpinnerVertices(int spinnerVertices) {
-    this.spinnerVertices.set(spinnerVertices);
-  }
+//  public void setSpinnerVertices(int spinnerVertices) {
+//    this.spinnerVertices.set(spinnerVertices);
+//  }
 
-  public String getUsername() {
-    return username.get();
-  }
+//  public String getUsername() {
+//    return username.get();
+//  }
 
-  public void setUsername(String username) {
-    this.username.set(username);
-  }
-
-  public boolean isResultSaved() {
-    return isResultSaved.get();
-  }
-
-  public void setIsResultSaved(boolean isResultSaved) {
-    this.isResultSaved.set(isResultSaved);
-  }
+//  public void setUsername(String username) {
+//    this.username.set(username);
+//  }
+//
+//  public boolean isResultSaved() {
+//    return isResultSaved.get();
+//  }
+//
+//  public void setIsResultSaved(boolean isResultSaved) {
+//    this.isResultSaved.set(isResultSaved);
+//  }
 
   // using default values in constructor to be changed later in runtime
-  public Data() {
-    this.username = new SimpleStringProperty("sample user");
-    this.isResultSaved = new SimpleBooleanProperty(false);
+  public MainProgramModel() {
+//    this.username = new SimpleStringProperty("sample user");
+//    this.isResultSaved = new SimpleBooleanProperty(false);
     this.pickedAlgorithm = new SimpleIntegerProperty(0);
-    this.inputData = new SimpleStringProperty("");
+//    this.inputData = new SimpleStringProperty("");
     this.filepath = new SimpleStringProperty("");
-    this.spinnerVertices = new SimpleIntegerProperty(0);
+//    this.spinnerVertices = new SimpleIntegerProperty(0);
     this.result = new SimpleDoubleProperty(0);
   }
 

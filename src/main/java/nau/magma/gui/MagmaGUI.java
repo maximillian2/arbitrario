@@ -24,19 +24,78 @@
 
 package nau.magma.gui;
 
-import nau.magma.cli.CommandParser;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 /**
+ * Main GUI class
+ *
  * @author Maksym Tymoshyk
  * @version 1.0
+ * @see Application
  */
-public class MagmaGUI implements IApplicationable {
-  public void run() {
-    javafx.application.Application.launch(MainApp.class);
+public class MagmaGUI extends Application {
+
+  private Stage primaryStage;
+  private HBox rootLayout;
+
+  public static void main(String[] args) {
+    launch(args);
   }
 
-  public void getData(CommandParser data) {
+  @Override
+  public void start(Stage primaryStage) {
+    this.primaryStage = primaryStage;
+    this.primaryStage.setTitle("MagmaApp");
 
+    initRootLayout();
+//    showMainLayout();
   }
+
+  private void initRootLayout() {
+    try {
+//       Load root layout from fxml file
+      FXMLLoader loader = new FXMLLoader();
+      loader.setLocation(MagmaGUI.class.getResource("/fxml/new_gui.fxml"));
+      rootLayout = loader.load();
+
+//       Display scene that contains root layout
+      Scene scene = new Scene(rootLayout);
+
+      primaryStage.setScene(scene);
+      primaryStage.setMinWidth(600);
+      primaryStage.setMinHeight(430);
+
+      primaryStage.show();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+//  private void showMainLayout() {
+//    try {
+//      FXMLLoader loader = new FXMLLoader();
+//      loader.setLocation(MagmaGUI.class.getResource("/fxml/new_gui.fxml"));
+//      StackPane personOverview = loader.load();
+//
+////      rootLayout.setCenter(personOverview);
+////      rootLayout.setLeft(personOverview);
+//
+////       Give the controller access to the main app
+//      DataController controller = loader.getController();
+//      controller.setMainApp(this);
+//
+//    } catch (IOException e) {
+//      e.printStackTrace();
+//    }
+//  }
+
+  public MagmaGUI() {
+  }
+
 }
-
