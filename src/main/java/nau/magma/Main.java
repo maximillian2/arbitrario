@@ -37,9 +37,9 @@ import nau.magma.gui.MagmaGUI;
  * @see JCommander
  */
 public class Main {
-    String[] args;
+    private String[] args;
 
-    Main(String[] args) {
+    private Main(String[] args) {
         this.args = args;
     }
 
@@ -47,7 +47,7 @@ public class Main {
         new Main(args).startProgram();
     }
 
-    public void startProgram() {
+    private void startProgram() {
         try {
             CommandParser cp = new CommandParser();
             JCommander jc = new JCommander(cp, args);
@@ -64,9 +64,6 @@ public class Main {
             } else {
                 // launches CLI application
                 new MagmaCLI().run(cp);
-//                MagmaCLI cli = new MagmaCLI();
-//                cli.getData(cp);
-//                cli.run();
             }
             // catches exceptions on console parameter setting stage
         } catch (ParameterException e) {

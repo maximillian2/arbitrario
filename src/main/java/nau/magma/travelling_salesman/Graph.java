@@ -46,7 +46,6 @@ public class Graph {
    * Builder function for a matrix representing a completely connected euclidean graph.
    *
    * @param N the number of vertices
-   *          //	 * @return a completely connected euclidean graph
    */
   public Graph(int N) {
     this.graph = new double[N][N];
@@ -57,7 +56,7 @@ public class Graph {
     long seed = new Random().nextLong();
     Random generatorX = new Random(seed);
     Random generatorY = new Random(seed * 2);
-    int count = 0; //nau.magma.travelling_salesman.Vertex Count
+    int count = 0; //vertex Count
     boolean[] visited = new boolean[N]; //keeps track of x coordinates between 0 and N-1 that have already been created
     while (count < N) {
       int x = generatorX.nextInt(N);
@@ -111,12 +110,12 @@ public class Graph {
     graph[vertex.id][vertex.parent] = vertex.weight;
     graph[vertex.parent][vertex.id] = vertex.weight;
   }
-
+//
 //	/**
 //	 * Constructs an empty graph
 //	 * @param N Space allocated
 //	 */
-//	public nau.magma.travelling_salesman.Graph(int N){
+//	public Graph(int N){
 //		this.graph = new double[N][N];
 //		this.N = N;
 //		this.edges = null;

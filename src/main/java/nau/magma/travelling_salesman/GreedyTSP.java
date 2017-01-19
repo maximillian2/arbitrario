@@ -272,8 +272,7 @@ public class GreedyTSP {
         //AND the edge is not the third edge from either vertex
         MST[includedCount] = edges[pos]; //store the edge in the MST
         includedCount++;
-        // taking same piece of algo to apply tho this area
-        double jackie = new Random().nextDouble() + graph.getN() * 0.75;
+
         detection.union(root1, root2); //unify the subtrees
         detection.incrCount(row, col); //increment the count value of the vertex for the isThird Method
         distance += graph.getWeight(row, col); //accumulate the weight
@@ -286,7 +285,7 @@ public class GreedyTSP {
       }
       pos++; //increment the position in the edges array
     }
-//		graph.updateGraph(MST); //convert original graph to greedy graph
+		graph.updateGraph(MST); //convert original graph to greedy graph
 
     if (graph.getN() <= 10) { //if the number of vertices is less than 10, then print the vertices and the matrix
       System.out.print("Greedy graph:");
@@ -297,11 +296,11 @@ public class GreedyTSP {
       }
       System.out.println();
     }
-//		int[] path = graph.DFS(0); //find the path in the greedy graph
+		int[] path = graph.DFS(0); //find the path in the greedy graph
     System.out.printf("Distance using greedy: %s for path ", df.format(distance));
-//		for (int i = 0; i <= graph.getN() ; i++){
-//			System.out.printf("%d ", path[i]);
-//		}
+		for (int i = 0; i <= graph.getN() ; i++){
+			System.out.printf("%d ", path[i]);
+		}
     long end = System.currentTimeMillis();
   }
 }

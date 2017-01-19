@@ -59,7 +59,7 @@ public class Util {
             Boolean startLineFound = false, endLineFound = false;
             while (scanner.hasNextLine()) {
                 currentLine = scanner.nextLine();
-                System.out.println(currentLine);
+                System.out.println("Read = " + currentLine);
 
                 if (startLineFound) {
                     if (!endLineFound) {
@@ -74,7 +74,6 @@ public class Util {
                     endLineFound = true;
                 }
             }
-            // TODO: try with do-while to avoid adding EOF line
         } catch (Exception e) {
             logger.severe(e.getLocalizedMessage());
         }
@@ -90,7 +89,7 @@ public class Util {
         logger.fine("Created graph with size " + importedEdgesList.size());
         graph.updateGraph(Arrays.copyOf(importedEdgesList.toArray(), importedEdgesList.size(), Edge[].class));
         logger.fine("Filled with values");
-        // TODO: log graph content here
+        graph.printMatrix();
         return graph;
     }
 

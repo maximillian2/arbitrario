@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="244.0" prefWidth="448.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" text="Arbitrario">
+               <font>
+                  <Font name="Avenir Light" size="64.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="148.0" fitWidth="114.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/program_icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Label>
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="GUI wrapper for Travelling Salesman Problem realizations. ">
+               <font>
+                  <Font name="Avenir Light" size="17.0" />
+               </font>
+            </Label>
+            <Label text="Version: 1.0">
+               <font>
+                  <Font name="Avenir Light" size="17.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+   </center>
+   <bottom>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Icon 'distance' by ">
+                     <font>
+                        <Font name="Avenir Light" size="15.0" />
+                     </font>
+                  </Label>
+                  <Hyperlink fx:id="neonProjectLink" onAction="#handleNeonProjectLink" text="Tommy Lau from the Noun Project" />
+               </children>
+            </HBox>
+            <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Algorithms by ">
+                     <font>
+                        <Font name="Avenir Light" size="15.0" />
+                     </font>
+                  </Label>
+                  <Hyperlink fx:id="githubRealizationLink" onAction="#handleGithubRealizationLink" text="D'yangelo Antonio Grullon" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Copyright (c) 2016 ">
+                     <font>
+                        <Font name="Avenir Light" size="15.0" />
+                     </font>
+                  </Label>
+                  <Hyperlink fx:id="authorLink" onAction="#handleAuthorLink" text="Maksym Tymoshyk" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </bottom>
+</BorderPane>

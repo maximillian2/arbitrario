@@ -27,18 +27,24 @@ package nau.magma.gui;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import nau.magma.Util;
+import nau.magma.travelling_salesman.*;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -47,11 +53,11 @@ import java.util.ResourceBundle;
  * Controller in JavaFx architecture.
  *
  * @author Maksym Tymoshyk
- * @version 1.0
+ * @version 1.5
  */
-public class DataController implements Initializable {
+public class MainController implements Initializable {
 
-  private MainProgramModel mainProgramModel = new MainProgramModel();
+  private MainModel mainModel = new MainModel();
   private MagmaGUI app;
   // TODO: move to config file
   private ObservableList<String> algorithmList = FXCollections.observableArrayList("Optimal TSP", "Greedy TSP", "Mst TSP");
@@ -82,7 +88,7 @@ public class DataController implements Initializable {
 
   // Called first when creating object, so it doesn't see any FXML notations
   // which are being populated right after that
-  public DataController() {
+  public MainController() {
   }
 
   /**
@@ -93,55 +99,78 @@ public class DataController implements Initializable {
    */
   @FXML
   private void handleSolveProblem() {
-    StringBuilder builder = new StringBuilder();
-//    builder.append("User name: ").append(usernameField.getText()).append("\n");
-    builder.append("Picked algorithm: ").append(algorithmComboBox.getSelectionModel().getSelectedItem()).append("\n");
+    resultTextArea.appendText("Using " + algorithmComboBox.getSelectionModel().getSelectedItem() + " algorithm\n");
 
-    resultTextArea.appendText(builder.toString());
-
-//    mainProgramModel.setUsername(usernameField.getText());
-//    mainProgramModel.setIsResultSaved(checkbox.isSelected());
-//
-//    if (!spinner.isDisabled())
-//      mainProgramModel.setSpinnerVertices((int) spinner.getValue());
-//
-    if(algorithmComboBox.getSelectionModel().isSelected(0))
-//    if (algorithmComboBox.getSelectionModel().getSelectedItem().equals("traveling salesman")) {
-//      mainProgramModel.setPickedAlgorithm(1);
-//    } else if (algorithmComboBox.getSelectionModel().getSelectedItem().equals("vehicle routing")) {
-//      mainProgramModel.setPickedAlgorithm(2);
-//    } else if (algorithmComboBox.getSelectionModel().getSelectedItem().equals("Hamiltonian cycle")) {
-//      mainProgramModel.setPickedAlgorithm(3);
-//    }
+    /*
+     * 0 - Optimal TSP
+     * 1 - Greedy TSP
+     * 2 - Mst TSP
+     * TODO: add fourth from pack
+     */
+    mainModel.setAlgorithmNumber(algorithmComboBox.getSelectionModel().getSelectedIndex() + 1);
     solveProblem();
-//    resetStates();
+  }
+
+  /**
+   * Method calls corresponding algorithm realization to get solution while printing info in status area
+   */
+  private void solveProblem() {
+    Graph graph = new Util().getProblemDataFromFilePath(selectedFilePathTextField.getText());
+    resultTextArea.appendText("Import data from file mode\n");
+
+    switch (mainModel.getAlgorithmNumber()) {
+      case 1:
+        OptimalTSP first = new OptimalTSP();
+        first.solveGraph(graph);
+        for (Edge e : first.printEdges(graph)) {
+          resultTextArea.appendText(e.toString() + "\n");
+        }
+        mainModel.setResultValue(first.getBestDistance());
+        break;
+      case 2:
+        GreedyTSP second = new GreedyTSP();
+        second.solveGraph(graph);
+        for (Edge e : second.getEdges(graph)) {
+          resultTextArea.appendText(e.toString() + "\n");
+        }
+        mainModel.setResultValue(second.getDistance());
+        break;
+      case 3:
+        MstTSP third = new MstTSP();
+        third.solveGraph(graph);
+        for (Edge e : third.getEdges(graph)) {
+          resultTextArea.appendText(e.toString() + "\n");
+        }
+        mainModel.setResultValue(third.getDistance());
+        break;
+    }
+
+    resultTextArea.appendText("RESULT: " + mainModel.getResultValue() + "\n");
   }
 
   @FXML
   private void handleHelpButton() {
-    Stage helpWindow = new Stage();
-    helpWindow.initModality(Modality.APPLICATION_MODAL);
-
-    VBox vb = new VBox(new Button("OK"));
-    helpWindow.setScene(new Scene(vb));
-    helpWindow.show();
-
+    HelpController helpWindow = new HelpController(app);
+    helpWindow.showHelp();
   }
 
   @FXML
   private void handleSelectFileButton() {
     FileChooser chooser = new FileChooser();
-    File selectedFile = chooser.showOpenDialog(null);
+
+    // TODO: edit this to use stage w/o fxml components
+    File selectedFile = chooser.showOpenDialog(solveButton.getScene().getWindow());
 
     if (selectedFile != null) {
-      selectedFilePathTextField.setText(selectedFile.getName());
+      selectedFilePathTextField.setText(selectedFile.getAbsolutePath());
       selectFileButton.setDisable(true);
 
       solveButton.setDisable(false);
       solveButton.setDefaultButton(true);
       solveButton.requestFocus();
 
-//      mainProgramModel.setFilepath(selectedFile.getAbsolutePath());
+      // TODO: save file data not path (it's useless)
+      mainModel.setFilePath(selectedFile.getAbsolutePath());
     } else {
       selectedFilePathTextField.setText("File selection cancelled.");
     }
@@ -149,7 +178,6 @@ public class DataController implements Initializable {
 
   @FXML
   private void resetStates() {
-
     resultTextArea.clear();
     solveButton.setDisable(true);
     solveButton.setDefaultButton(false);
@@ -158,66 +186,19 @@ public class DataController implements Initializable {
 
     selectedFilePathTextField.setText("No file imported.");
     algorithmComboBox.getSelectionModel().select(0);
-//    spinner.setDisable(false);
-//    mainProgramModel.setFilepath(null);
-  }
-
-  @FXML
-  private void handleSpinnerMouseEvents() {
-//    importFileButton.setDisable(true);
-//    solveButton.setDisable(false);
   }
 
   /**
    * Is called by the main application to give a reference back to itself.
-   *
-   * @param mainApp object of {@link javafx.application.Application}
+   * <p>
+   * //   * @param mainApp object of {@link javafx.application.Application}
    */
+  // TODO: wtf this working while commented
   public void setMainApp(MagmaGUI mainApp) {
     this.app = mainApp;
   }
 
-  /**
-   * Method calls corresponding algorithm realization to get solution while printing info in status area
-   */
-  private void solveProblem() {
-//    Graph graph;
-//    if (importFileButton.isDisabled()) {
-//      graph = new Graph(mainProgramModel.getSpinnerVertices());
-//      status.appendText("Random generated vertices mode\n");
-//    } else {
-//      graph = new Util().getProblemDataFromFilePath(mainProgramModel.getFilepath());
-//      status.appendText("Import data from file mode\n");
-//    }
-
-//    switch (mainProgramModel.getPickedAlgorithm()) {
-//      case 1:
-//        OptimalTSP first = new OptimalTSP();
-//        first.solveGraph(graph);
-//        for (Edge e : first.printEdges(graph)) {
-//          status.appendText(e.toString() + "\n");
-//        }
-//        mainProgramModel.setResult(first.getBestDistance());
-//        break;
-//      case 2:
-//        GreedyTSP second = new GreedyTSP();
-//        second.solveGraph(graph);
-//        for (Edge e : second.getEdges(graph)) {
-//          status.appendText(e.toString() + "\n");
-//        }
-//        mainProgramModel.setResult(second.getDistance());
-//        break;
-//      case 3:
-//        MstTSP third = new MstTSP();
-//        third.solveGraph(graph);
-//        for (Edge e : third.getEdges(graph)) {
-//          status.appendText(e.toString() + "\n");
-//        }
-//        mainProgramModel.setResult(third.getDistance());
-//        break;
-  }
-
-  // Called after constructor and FXML notation population
+  // This method is called by the FXMLLoader when initialization is complete
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     algorithmComboBox.setItems(algorithmList);
@@ -231,14 +212,4 @@ public class DataController implements Initializable {
 
     solveButton.setDisable(true);
   }
-
-  // after solving save to results.db if checked
-//    if (mainProgramModel.isResultSaved()) {
-//      new Util().saveResultToDatabase(mainProgramModel.getUsername(), mainProgramModel.getPickedAlgorithm(), mainProgramModel.getResult());
-//      status.appendText("Successfully saved to database\n");
-//    }
-//
-//    status.appendText("Result is " + mainProgramModel.getResult() + "\n");
-//  }
-
 }

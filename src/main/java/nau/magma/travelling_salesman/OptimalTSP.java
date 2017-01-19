@@ -47,7 +47,7 @@ public class OptimalTSP {
   static void nextPermutation(int[] permutation) {
     int j = permutation.length - 1;
   /*
-	 * Finds the first element from the end of 'permutation' where the element to its right
+   * Finds the first element from the end of 'permutation' where the element to its right
 	 * is less than or equal to the element. Stores the index of the element to the right of said
 	 * element to 'j'.
 	 */
@@ -101,16 +101,16 @@ public class OptimalTSP {
     if (N <= 5) { //if the number of vertices in the graph is less than or equal to 5, then print a formatted
       //representation of the path and its distance
 
-		System.out.printf("Path: 0 %d", path[0]);
+      System.out.printf("Path: 0 %d", path[0]);
       for (pos = 1; pos < path.length; pos++) {
         sum += graph.getWeight(path[pos - 1], path[pos]); // Accumulates the distance between all elements in path
         //with the previous element in path
-			System.out.printf(" %d", path[pos]);
+        System.out.printf(" %d", path[pos]);
       }
       sum += graph.getWeight(path[pos - 1], 0); //increments the total sum with the distance between the last vertex
       //in path and 0
-		System.out.print(" 0  ");
-		System.out.printf("distance = %s\n",df.format(sum));
+      System.out.print(" 0  ");
+      System.out.printf("distance = %s\n", df.format(sum));
       return sum;
     } else {
       //does the same thing as above but without print statements
@@ -151,29 +151,29 @@ public class OptimalTSP {
     }
 
     printEdges(graph);
-	long start = System.currentTimeMillis(); //record start time of the permutations algorithm
+    long start = System.currentTimeMillis(); //record start time of the permutations algorithm
     double distance = computeDistance(permutations, graph, graph.getN());  //compute distance of first path
     double best = distance; //determine base first path to be the total distance of the path 0-1-2-...-(N-1)-0
-	int[] bestPath = Arrays.copyOf(permutations, permutations.length); //stores best path in an array called bestPath
-	for (int i = 0; i < total-1; i++ ){ //for every possible permutation
-		nextPermutation(permutations); //compute next permutation by changing 'permutations'
-		distance = computeDistance(permutations, graph, graph.getN()); //compute the total distance of the path that was just
+    int[] bestPath = Arrays.copyOf(permutations, permutations.length); //stores best path in an array called bestPath
+    for (int i = 0; i < total - 1; i++) { //for every possible permutation
+      nextPermutation(permutations); //compute next permutation by changing 'permutations'
+      distance = computeDistance(permutations, graph, graph.getN()); //compute the total distance of the path that was just
 //															computed
-		if (distance < best){ //if the recently calculated distance is lower than the recorded best distance:
-			best = distance; //set the new best distance
-			bestPath = Arrays.copyOf(permutations, permutations.length);//copy the new best path
-		}
-	}
+      if (distance < best) { //if the recently calculated distance is lower than the recorded best distance:
+        best = distance; //set the new best distance
+        bestPath = Arrays.copyOf(permutations, permutations.length);//copy the new best path
+      }
+    }
 
-	System.out.printf("\nOptimal distance: %s for path 0", df.format(best));
+    System.out.printf("\nOptimal distance: %s for path 0", df.format(best));
     setBestDistance(best);
 
-	for (int i = 0; i < graph.getN()-1; i++){
-		System.out.printf(" %d", bestPath[i]);
-	}
-	System.out.println(" 0");
-	long end = System.currentTimeMillis();
-	System.out.printf("Runtime for optimal TSP   : %d milliseconds\n\n", end-start);
+    for (int i = 0; i < graph.getN() - 1; i++) {
+      System.out.printf(" %d", bestPath[i]);
+    }
+    System.out.println(" 0");
+    long end = System.currentTimeMillis();
+    System.out.printf("Runtime for optimal TSP   : %d milliseconds\n\n", end - start);
   }
 
   public double getBestDistance() {

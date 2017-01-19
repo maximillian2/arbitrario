@@ -24,8 +24,63 @@
 
 package nau.magma.gui;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 /**
- * Created by Maksym Tymoshyk on 1/16/17.
+ * Class that describes user auth window GUI values of parameters.
+ * Model in JavaFx architecture.
+ *
+ * @author Maksym Tymoshyk
+ * @version 1.0
  */
 public class AuthModel {
+  private final StringProperty userName;
+  private final StringProperty institutionAbbrv;
+  private final IntegerProperty groupNumber;
+
+  public String getUserName() {
+    return userName.get();
+  }
+
+  public StringProperty userNameProperty() {
+    return userName;
+  }
+
+  public void setUserName(String userName) {
+    this.userName.set(userName);
+  }
+
+  public String getInstitutionAbbrv() {
+    return institutionAbbrv.get();
+  }
+
+  public StringProperty institutionAbbrvProperty() {
+    return institutionAbbrv;
+  }
+
+  public void setInstitutionAbbrv(String institutionAbbrv) {
+    this.institutionAbbrv.set(institutionAbbrv);
+  }
+
+  public int getGroupNumber() {
+    return groupNumber.get();
+  }
+
+  public IntegerProperty groupNumberProperty() {
+    return groupNumber;
+  }
+
+  public void setGroupNumber(int groupNumber) {
+    this.groupNumber.set(groupNumber);
+  }
+
+
+  public AuthModel() {
+    userName = new SimpleStringProperty("");
+    groupNumber = new SimpleIntegerProperty(0);
+    institutionAbbrv = new SimpleStringProperty("");
+  }
 }

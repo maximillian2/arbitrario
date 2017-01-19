@@ -24,59 +24,50 @@
 
 package nau.magma.gui;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
-
-import java.io.IOException;
+import javafx.beans.property.*;
 
 /**
- * Main GUI class
+ * Class that describes main window GUI values of parameters.
+ * Model in JavaFx architecture.
  *
  * @author Maksym Tymoshyk
- * @version 2.0
- * @see Application
+ * @version 1.5
  */
-public class MagmaGUI extends Application {
+public class MainModel {
+  private final DoubleProperty resultValue;
+  private final IntegerProperty algorithmNumber;
+  private final StringProperty filePath;
 
-  private Stage primaryStage;
-  private HBox rootLayout;
-
-  public static void main(String[] args) {
-    launch(args);
+  public double getResultValue() {
+    return resultValue.get();
   }
 
-  @Override
-  public void start(Stage primaryStage) {
-    this.primaryStage = primaryStage;
-    this.primaryStage.setTitle("MagmaApp");
-
-    initRootLayout();
+  public void setResultValue(double resultValue) {
+    this.resultValue.set(resultValue);
   }
 
-  private void initRootLayout() {
-    try {
-      // Load root layout from fxml file
-      FXMLLoader loader = new FXMLLoader();
-      loader.setLocation(MagmaGUI.class.getResource("/fxml/new_gui.fxml"));
-      rootLayout = loader.load();
-
-      // Display scene that contains root layout
-      Scene scene = new Scene(rootLayout);
-
-      primaryStage.setScene(scene);
-      primaryStage.setMinWidth(600);
-      primaryStage.setMinHeight(430);
-
-      primaryStage.show();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+  public int getAlgorithmNumber() {
+    return algorithmNumber.get();
   }
 
-  public MagmaGUI() {
+  public void setAlgorithmNumber(int algorithmNumber) {
+    this.algorithmNumber.set(algorithmNumber);
   }
+
+  public String getFilePath() {
+    return filePath.get();
+  }
+
+  public void setFilePath(String filePath) {
+    this.filePath.set(filePath);
+  }
+
+  // initialize variables to avoid NullPointer exception
+  public MainModel() {
+    this.algorithmNumber = new SimpleIntegerProperty(0);
+    this.filePath = new SimpleStringProperty("");
+    this.resultValue = new SimpleDoubleProperty(0);
+  }
+
 
 }
