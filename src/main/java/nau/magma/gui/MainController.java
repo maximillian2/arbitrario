@@ -150,15 +150,14 @@ public class MainController implements Initializable {
 
   @FXML
   private void handleHelpButton() {
-    HelpController helpWindow = new HelpController(app);
+    HelpController helpWindow = new HelpController();
     helpWindow.showHelp();
+    selectFileButton.requestFocus();
   }
 
   @FXML
   private void handleSelectFileButton() {
     FileChooser chooser = new FileChooser();
-
-    // TODO: edit this to use stage w/o fxml components
     File selectedFile = chooser.showOpenDialog(solveButton.getScene().getWindow());
 
     if (selectedFile != null) {

@@ -29,12 +29,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -42,7 +45,6 @@ import java.util.ResourceBundle;
  * Created by Maksym Tymoshyk on 1/18/17.
  */
 public class HelpController implements Initializable {
-//  private MagmaGUI app;
 
   @FXML // fx:id="neonProjectLink"
   private Hyperlink neonProjectLink; // Value injected by FXMLLoader
@@ -53,8 +55,7 @@ public class HelpController implements Initializable {
   @FXML // fx:id="authorLink"
   private Hyperlink authorLink; // Value injected by FXMLLoader
 
-  public HelpController(MagmaGUI app) {
-//    this.app = app;
+  public HelpController() {
   }
 
   // This method is called by the FXMLLoader when initialization is complete
@@ -66,18 +67,38 @@ public class HelpController implements Initializable {
   }
 
   @FXML
+  private void handleExitWindow(KeyEvent event) {
+    if (event.getCode() == KeyCode.ESCAPE || event.getCode() == KeyCode.ENTER) {
+      Stage stage = (Stage) authorLink.getScene().getWindow();
+      stage.hide();
+    }
+  }
+
+  @FXML
   private void handleGithubRealizationLink() {
-//    app.getHostServices().showDocument("https://github.com/dag4202/TravelingSalesman");
+    try {
+      java.awt.Desktop.getDesktop().browse(new URI("https://github.com/dag4202/TravelingSalesman"));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   @FXML
   private void handleNeonProjectLink() {
-//    app.getHostServices().showDocument("https://thenounproject.com/lch121/");
+    try {
+      java.awt.Desktop.getDesktop().browse(new URI("https://thenounproject.com/lch121/"));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   @FXML
   private void handleAuthorLink() {
-//    app.getHostServices().showDocument("https://github.com/maximillian2");
+    try {
+      java.awt.Desktop.getDesktop().browse(new URI("https://github.com/maximillian2"));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   public void showHelp() {
@@ -91,7 +112,6 @@ public class HelpController implements Initializable {
       // Display scene that contains root layout
       Stage stage = new Stage();
       stage.initModality(Modality.APPLICATION_MODAL);
-//       stage.initOwner(authorLink.getScene().getWindow());
 
       stage.setTitle("About");
       stage.initStyle(StageStyle.UNDECORATED);
