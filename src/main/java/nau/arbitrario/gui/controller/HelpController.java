@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package nau.magma.gui;
+package nau.arbitrario.gui.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,6 +35,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import nau.arbitrario.gui.ArbitrarioGUI;
 
 import java.io.IOException;
 import java.net.URI;
@@ -42,7 +43,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Created by Maksym Tymoshyk on 1/18/17.
+ * JavaFX class to draw help window.
+ *
+ * @author Maksym Tymoshyk
+ * @version 1.0
  */
 public class HelpController implements Initializable {
 
@@ -101,11 +105,12 @@ public class HelpController implements Initializable {
     }
   }
 
-  public void showHelp() {
+  // package private method
+  void showHelp() {
     try {
       // Load root layout from fxml file
       FXMLLoader loader = new FXMLLoader();
-      loader.setLocation(MagmaGUI.class.getResource("/fxml/helpWindow.fxml"));
+      loader.setLocation(ArbitrarioGUI.class.getResource("/fxml/helpWindow.fxml"));
       loader.setController(this);
       BorderPane helpWindow = loader.load();
 

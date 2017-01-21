@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package nau.magma.travelling_salesman;
+package nau.arbitrario.travelling_salesman;
 
 /**
  * The class used to encapsulate vertex data
@@ -36,7 +36,7 @@ public class Vertex implements Comparable<Vertex> {
   public boolean leftToRight;
 
   /**
-   * The builder method for a nau.magma.travelling_salesman.Vertex object. Instantiates weight to infinity
+   * The builder method for a nau.arbitrario.travelling_salesman.Vertex object. Instantiates weight to infinity
    * and parent to -1
    *
    * @param id The vertex id to assign

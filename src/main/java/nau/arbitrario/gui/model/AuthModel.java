@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package nau.magma.gui;
+package nau.arbitrario.gui.model;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -30,8 +30,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * Class that describes user auth window GUI values of parameters.
- * Model in JavaFx architecture.
+ * JavaFX class that describes user auth window GUI values of parameters.
  *
  * @author Maksym Tymoshyk
  * @version 1.0

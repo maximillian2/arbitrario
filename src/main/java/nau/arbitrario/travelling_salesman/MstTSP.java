@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package nau.magma.travelling_salesman;
+package nau.arbitrario.travelling_salesman;
 
 import java.text.DecimalFormat;
 

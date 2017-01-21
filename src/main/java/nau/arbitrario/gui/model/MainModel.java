@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2016 Maksym Tymoshyk
+ * Copyright (c) 2017 Maksym Tymoshyk
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,9 +22,10 @@
  * SOFTWARE.
  */
 
-package nau.magma.gui;
+package nau.arbitrario.gui.model;
 
 import javafx.beans.property.*;
+import nau.arbitrario.travelling_salesman.Graph;
 
 /**
  * Class that describes main window GUI values of parameters.
@@ -37,6 +38,19 @@ public class MainModel {
   private final DoubleProperty resultValue;
   private final IntegerProperty algorithmNumber;
   private final StringProperty filePath;
+  private final ObjectProperty<Graph> data;
+
+  public Graph getData() {
+    return data.get();
+  }
+
+  public ObjectProperty<Graph> dataProperty() {
+    return data;
+  }
+
+  public void setData(Graph data) {
+    this.data.set(data);
+  }
 
   public double getResultValue() {
     return resultValue.get();
@@ -67,6 +81,7 @@ public class MainModel {
     this.algorithmNumber = new SimpleIntegerProperty(0);
     this.filePath = new SimpleStringProperty("");
     this.resultValue = new SimpleDoubleProperty(0);
+    data = new SimpleObjectProperty<>();
   }
 
 

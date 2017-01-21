@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package nau.magma.cli;
+package nau.arbitrario.cli;
 
 import com.beust.jcommander.Parameter;
 
@@ -41,7 +41,7 @@ public class CommandParser {
     public boolean guiEnabled = false;
 
     /**
-     * Parameter describes algorithm number and validates it with class nau.magma.cli.CorrectAlgorithm
+     * Parameter describes algorithm number and validates it with class nau.arbitrario.cli.CorrectAlgorithm
      * <p><ul>
      * <li>1 - OptimalTSP</li>
      * <li>2 - GreedyTSP</li>
@@ -51,19 +51,19 @@ public class CommandParser {
      * @see CorrectAlgorithm
      */
     @Parameter(names = {"--algorithm", "-al"}, validateWith = CorrectAlgorithm.class)
-    public Integer algorithmNumber;
+    Integer algorithmNumber;
 
     /**
      * Parameter if set will save result data to database
      */
     @Parameter(names = {"--save", "-s"}, description = "Save results to database for future operations")
-    public boolean resultSaved = false;
+    boolean resultSaved = false;
 
     /**
      * Parameter holds import file path to get values
      */
     @Parameter(names = {"--import", "-i"}, description = "Import data from external file")
-    public String importFilePath;
+    String importFilePath;
 
     /**
      * Boolean if set prints out help message

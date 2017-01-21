@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package nau.magma.travelling_salesman;
+package nau.arbitrario.travelling_salesman;
 
 import java.text.DecimalFormat;
 
@@ -37,7 +37,7 @@ public class Edge implements Comparable<Edge> {
   private Double weight; //the distance between both points
 
   /**
-   * Builder function for an nau.magma.travelling_salesman.Edge type representing an edge in a graph
+   * Builder function for an nau.arbitrario.travelling_salesman.Edge type representing an edge in a graph
    *
    * @param row
    * @param col

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package nau.magma.travelling_salesman;/*
+package nau.arbitrario.travelling_salesman;/*
  * MIT License
  *
  * Copyright (c) 2016 Maksym Tymoshyk
@@ -47,7 +47,6 @@ package nau.magma.travelling_salesman;/*
  */
 
 import java.text.DecimalFormat;
-import java.util.Random;
 
 /**
  * @author Dyangelo Grullon (dag4202)
@@ -73,8 +72,8 @@ public class GreedyTSP {
     /**
      * Helper method for the sorting algorithm, that determines if edge a <  edge b
      *
-     * @param a an nau.magma.travelling_salesman.Edge
-     * @param b an nau.magma.travelling_salesman.Edge
+     * @param a an nau.arbitrario.travelling_salesman.Edge
+     * @param b an nau.arbitrario.travelling_salesman.Edge
      * @return boolean type which represents the result of the premise that a < b
      */
     private static boolean less(Edge a, Edge b) {
@@ -82,7 +81,7 @@ public class GreedyTSP {
     }
 
     /**
-     * Swaps two elements at given positions in a given nau.magma.travelling_salesman.Edge array
+     * Swaps two elements at given positions in a given nau.arbitrario.travelling_salesman.Edge array
      *
      * @param a an array of edges
      * @param i the index to exchange with
@@ -138,7 +137,7 @@ public class GreedyTSP {
     /**
      * Publicly accessable method that sorts an array of edges using quicksort
      *
-     * @param a an array of nau.magma.travelling_salesman.Edge types
+     * @param a an array of nau.arbitrario.travelling_salesman.Edge types
      */
     public static void sort(Edge[] a) {
       sort(a, 0, a.length - 1); // calls the private method
@@ -285,7 +284,7 @@ public class GreedyTSP {
       }
       pos++; //increment the position in the edges array
     }
-		graph.updateGraph(MST); //convert original graph to greedy graph
+//		graph.updateGraph(MST); //convert original graph to greedy graph
 
     if (graph.getN() <= 10) { //if the number of vertices is less than 10, then print the vertices and the matrix
       System.out.print("Greedy graph:");

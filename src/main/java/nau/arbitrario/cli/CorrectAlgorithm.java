@@ -22,53 +22,40 @@
  * SOFTWARE.
  */
 
-package nau.magma;
+package nau.arbitrario.cli;
 
-import com.beust.jcommander.JCommander;
+import com.beust.jcommander.IParameterValidator;
 import com.beust.jcommander.ParameterException;
-import nau.magma.cli.CommandParser;
-import nau.magma.cli.MagmaCLI;
-import nau.magma.gui.MagmaGUI;
+import nau.arbitrario.Settings;
 
 /**
- * Initial class
+ * Class to validate algorithm number given as command-line parameter.
  *
  * @author Maksym Tymoshyk
- * @see JCommander
+ * @version 1.0
+ * @see IParameterValidator
  */
-public class Main {
-    private String[] args;
+public class CorrectAlgorithm implements IParameterValidator {
+  /**
+   * Checks parameter and its value to be in valid range
+   *
+   * @param name  parameter name
+   * @param value value of parameter
+   * @throws ParameterException if parameter does not fit right value
+   */
+  public void validate(String name, String value) throws ParameterException {
+    try {
+      final int MAX_ALGORITHM_NUMBER = Integer.valueOf(Settings.getInstance().getValue("validator.max_algorithm_number"));
 
-    private Main(String[] args) {
-        this.args = args;
+      int n = Integer.parseInt(value);
+      if (n < 1 || n > MAX_ALGORITHM_NUMBER)
+        throw new ParameterException("Parameter " + name + " should be in range 1-" + MAX_ALGORITHM_NUMBER +
+            " (found " + value + ") ");
+    } catch (
+        Exception e)
+
+    {
+      e.printStackTrace();
     }
-
-    public static void main(String[] args) {
-        new Main(args).startProgram();
-    }
-
-    private void startProgram() {
-        try {
-            CommandParser cp = new CommandParser();
-            JCommander jc = new JCommander(cp, args);
-            jc.setProgramName("magma");
-
-            if (cp.usagePrinted) {
-                jc.usage();
-                return;
-            }
-
-            if (cp.guiEnabled) {
-                // launches JavaFx application
-                javafx.application.Application.launch(MagmaGUI.class);
-            } else {
-                // launches CLI application
-                new MagmaCLI().run(cp);
-            }
-            // catches exceptions on console parameter setting stage
-        } catch (ParameterException e) {
-            System.out.println(e.getMessage());
-        }
-
-    }
+  }
 }

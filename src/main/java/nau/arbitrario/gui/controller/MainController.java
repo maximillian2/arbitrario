@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2016 Maksym Tymoshyk
+ * Copyright (c) 2017 Maksym Tymoshyk
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,35 +22,36 @@
  * SOFTWARE.
  */
 
-package nau.magma.gui;
+package nau.arbitrario.gui.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import nau.magma.Util;
-import nau.magma.travelling_salesman.*;
+import nau.arbitrario.Settings;
+import nau.arbitrario.Util;
+import nau.arbitrario.gui.ArbitrarioGUI;
+import nau.arbitrario.gui.model.MainModel;
+import nau.arbitrario.travelling_salesman.Edge;
+import nau.arbitrario.travelling_salesman.GreedyTSP;
+import nau.arbitrario.travelling_salesman.MstTSP;
+import nau.arbitrario.travelling_salesman.OptimalTSP;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 /**
- * Class to handle GUI part.
- * Controller in JavaFx architecture.
+ * JavaFX class to handle GUI part.
  *
  * @author Maksym Tymoshyk
  * @version 1.5
@@ -58,37 +59,44 @@ import java.util.ResourceBundle;
 public class MainController implements Initializable {
 
   private MainModel mainModel = new MainModel();
-  private MagmaGUI app;
-  // TODO: move to config file
-  private ObservableList<String> algorithmList = FXCollections.observableArrayList("Optimal TSP", "Greedy TSP", "Mst TSP");
+  private ArbitrarioGUI app;
+  private ObservableList<String> algorithmList = FXCollections.observableArrayList();
+  private final Logger logger = Logger.getLogger(MainController.class.getName());
 
-  @FXML
-  private Button solveButton;
+  @FXML // fx:id="resultTextArea"
+  private TextArea resultTextArea; // Value injected by FXMLLoader
 
-  @FXML
-  private TextArea resultTextArea;
+  @FXML // fx:id="solveButton"
+  private Button solveButton; // Value injected by FXMLLoader
 
-  @FXML
-  private ChoiceBox<String> algorithmComboBox;
+  @FXML // fx:id="algorithmComboBox"
+  private ChoiceBox<String> algorithmComboBox; // Value injected by FXMLLoader
 
-  @FXML
-  private Button selectFileButton;
+  @FXML // fx:id="selectedFilePathTextField"
+  private TextField selectedFilePathTextField; // Value injected by FXMLLoader
 
-  @FXML
-  private Button optionsButton;
+  @FXML // fx:id="selectFileButton"
+  private Button selectFileButton; // Value injected by FXMLLoader
 
-  @FXML
-  private Button resetAllButton;
+  @FXML // fx:id="optionsButton"
+  private Button optionsButton; // Value injected by FXMLLoader
 
-  @FXML
-  private Button helpButton;
+  @FXML // fx:id="resetAllButton"
+  private Button resetAllButton; // Value injected by FXMLLoader
 
-  @FXML
-  private TextField selectedFilePathTextField;
+  @FXML // fx:id="helpButton"
+  private Button helpButton; // Value injected by FXMLLoader
+
 
   // Called first when creating object, so it doesn't see any FXML notations
   // which are being populated right after that
   public MainController() {
+    try {
+      LogManager.getLogManager().readConfiguration(MainController.class.getClassLoader().getResourceAsStream("config.properties"));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    algorithmList.addAll(Settings.getInstance().getValue("main.algorithms").split(", "));
   }
 
   /**
@@ -99,6 +107,9 @@ public class MainController implements Initializable {
    */
   @FXML
   private void handleSolveProblem() {
+    // TODO: save result somewhere if it's second time using the algo then reset
+    //    resetStates();
+    logger.log(Level.FINE, "Clicked solve button");
     resultTextArea.appendText("Using " + algorithmComboBox.getSelectionModel().getSelectedItem() + " algorithm\n");
 
     /*
@@ -115,30 +126,30 @@ public class MainController implements Initializable {
    * Method calls corresponding algorithm realization to get solution while printing info in status area
    */
   private void solveProblem() {
-    Graph graph = new Util().getProblemDataFromFilePath(selectedFilePathTextField.getText());
+    mainModel.setData(Util.getProblemDataFromFilePath(mainModel.getFilePath()));
     resultTextArea.appendText("Import data from file mode\n");
 
     switch (mainModel.getAlgorithmNumber()) {
       case 1:
         OptimalTSP first = new OptimalTSP();
-        first.solveGraph(graph);
-        for (Edge e : first.printEdges(graph)) {
+        first.solveGraph(mainModel.getData());
+        for (Edge e : first.printEdges(mainModel.getData())) {
           resultTextArea.appendText(e.toString() + "\n");
         }
         mainModel.setResultValue(first.getBestDistance());
         break;
       case 2:
         GreedyTSP second = new GreedyTSP();
-        second.solveGraph(graph);
-        for (Edge e : second.getEdges(graph)) {
+        second.solveGraph(mainModel.getData());
+        for (Edge e : second.getEdges(mainModel.getData())) {
           resultTextArea.appendText(e.toString() + "\n");
         }
         mainModel.setResultValue(second.getDistance());
         break;
       case 3:
         MstTSP third = new MstTSP();
-        third.solveGraph(graph);
-        for (Edge e : third.getEdges(graph)) {
+        third.solveGraph(mainModel.getData());
+        for (Edge e : third.getEdges(mainModel.getData())) {
           resultTextArea.appendText(e.toString() + "\n");
         }
         mainModel.setResultValue(third.getDistance());
@@ -157,6 +168,7 @@ public class MainController implements Initializable {
 
   @FXML
   private void handleSelectFileButton() {
+    logger.log(Level.FINE, "Clicked select file button");
     FileChooser chooser = new FileChooser();
     File selectedFile = chooser.showOpenDialog(solveButton.getScene().getWindow());
 
@@ -169,6 +181,7 @@ public class MainController implements Initializable {
       solveButton.requestFocus();
 
       // TODO: save file data not path (it's useless)
+      // TODO: validate selected file
       mainModel.setFilePath(selectedFile.getAbsolutePath());
     } else {
       selectedFilePathTextField.setText("File selection cancelled.");
@@ -193,7 +206,7 @@ public class MainController implements Initializable {
    * //   * @param mainApp object of {@link javafx.application.Application}
    */
   // TODO: wtf this working while commented
-  public void setMainApp(MagmaGUI mainApp) {
+  public void setMainApp(ArbitrarioGUI mainApp) {
     this.app = mainApp;
   }
 
@@ -210,5 +223,14 @@ public class MainController implements Initializable {
     resultTextArea.setEditable(false);
 
     solveButton.setDisable(true);
+
+    assert resultTextArea != null : "fx:id=\"resultTextArea\" was not injected: check your FXML file 'mainWindow.fxml'.";
+    assert solveButton != null : "fx:id=\"solveButton\" was not injected: check your FXML file 'mainWindow.fxml'.";
+    assert algorithmComboBox != null : "fx:id=\"algorithmComboBox\" was not injected: check your FXML file 'mainWindow.fxml'.";
+    assert selectedFilePathTextField != null : "fx:id=\"selectedFilePathTextField\" was not injected: check your FXML file 'mainWindow.fxml'.";
+    assert selectFileButton != null : "fx:id=\"selectFileButton\" was not injected: check your FXML file 'mainWindow.fxml'.";
+    assert optionsButton != null : "fx:id=\"optionsButton\" was not injected: check your FXML file 'mainWindow.fxml'.";
+    assert resetAllButton != null : "fx:id=\"resetAllButton\" was not injected: check your FXML file 'mainWindow.fxml'.";
+    assert helpButton != null : "fx:id=\"helpButton\" was not injected: check your FXML file 'mainWindow.fxml'.";
   }
 }

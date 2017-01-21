@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package nau.magma.gui;
+package nau.arbitrario.gui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -39,10 +39,9 @@ import java.io.IOException;
  * @version 2.0
  * @see Application
  */
-public class MagmaGUI extends Application {
+public class ArbitrarioGUI extends Application {
 
   private Stage primaryStage;
-  private HBox rootLayout;
 
   public static void main(String[] args) {
     launch(args);
@@ -60,8 +59,9 @@ public class MagmaGUI extends Application {
     try {
       // Load root layout from fxml file
       FXMLLoader loader = new FXMLLoader();
-      loader.setLocation(MagmaGUI.class.getResource("/fxml/new_gui.fxml"));
-      rootLayout = loader.load();
+      loader.setLocation(ArbitrarioGUI.class.getResource("/fxml/mainWindow.fxml"));
+
+      HBox rootLayout = loader.load();
 
       // Display scene that contains root layout
       Scene scene = new Scene(rootLayout);
@@ -76,7 +76,7 @@ public class MagmaGUI extends Application {
     }
   }
 
-  public MagmaGUI() {
+  public ArbitrarioGUI() {
   }
 
 }

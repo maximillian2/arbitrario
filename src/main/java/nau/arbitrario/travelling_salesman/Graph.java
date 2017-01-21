@@ -22,12 +22,11 @@
  * SOFTWARE.
  */
 
-package nau.magma.travelling_salesman;
+package nau.arbitrario.travelling_salesman;
 
+import java.text.DecimalFormat;
 import java.util.Random;
 import java.util.Stack;
-import java.text.DecimalFormat;
-import java.lang.Math;
 
 /**
  * @author Dyangelo Grullon (dag4202)
@@ -125,7 +124,7 @@ public class Graph {
 
   /**
    * Publicly accessible method which retrieves all edges in the graph and
-   * returns them in an array of nau.magma.travelling_salesman.Edge types
+   * returns them in an array of nau.arbitrario.travelling_salesman.Edge types
    *
    * @return an array of edges
    */
@@ -141,7 +140,6 @@ public class Graph {
    */
   public int[][] getVertices() {
     return this.vertices;
-
   }
 
   /**
