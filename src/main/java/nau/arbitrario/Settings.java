@@ -43,7 +43,7 @@ public class Settings {
     InputStream input = null;
 
     try {
-      input = Settings.class.getClassLoader().getResourceAsStream("config.properties");
+      input = Settings.class.getResourceAsStream("/config.properties");
 
       this.properties.load(input);
     } catch (IOException e) {

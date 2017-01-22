@@ -25,6 +25,7 @@
 package nau.arbitrario.travelling_salesman;
 
 import java.text.DecimalFormat;
+import java.util.logging.Logger;
 
 /**
  * @author Dyangelo Grullon (dag4202)

@@ -46,7 +46,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -92,11 +91,12 @@ public class MainController implements Initializable {
   // which are being populated right after that
   public MainController() {
     try {
-      LogManager.getLogManager().readConfiguration(MainController.class.getClassLoader().getResourceAsStream("config.properties"));
+      LogManager.getLogManager().readConfiguration(MainController.class.getResourceAsStream("/config.properties"));
     } catch (IOException e) {
       e.printStackTrace();
     }
     algorithmList.addAll(Settings.getInstance().getValue("main.algorithms").split(", "));
+    logger.info("Read algorithms from properties file.");
   }
 
   /**
@@ -108,10 +108,10 @@ public class MainController implements Initializable {
   @FXML
   private void handleSolveProblem() {
     // TODO: save result somewhere if it's second time using the algo then reset
-    //    resetStates();
-    logger.log(Level.FINE, "Clicked solve button");
-    resultTextArea.appendText("Using " + algorithmComboBox.getSelectionModel().getSelectedItem() + " algorithm\n");
+    logger.info("Button clicked.");
 
+    resultTextArea.appendText("Using " + algorithmComboBox.getSelectionModel().getSelectedItem() + " algorithm\n");
+    logger.info("Combobox: " + algorithmComboBox.getSelectionModel().getSelectedItem());
     /*
      * 0 - Optimal TSP
      * 1 - Greedy TSP
@@ -119,6 +119,7 @@ public class MainController implements Initializable {
      * TODO: add fourth from pack
      */
     mainModel.setAlgorithmNumber(algorithmComboBox.getSelectionModel().getSelectedIndex() + 1);
+    logger.info("Model algorithm number: " + mainModel.getAlgorithmNumber());
     solveProblem();
   }
 
@@ -127,6 +128,7 @@ public class MainController implements Initializable {
    */
   private void solveProblem() {
     mainModel.setData(Util.getProblemDataFromFilePath(mainModel.getFilePath()));
+    logger.info("File data set success.");
     resultTextArea.appendText("Import data from file mode\n");
 
     switch (mainModel.getAlgorithmNumber()) {
@@ -157,22 +159,26 @@ public class MainController implements Initializable {
     }
 
     resultTextArea.appendText("RESULT: " + mainModel.getResultValue() + "\n");
+    logger.info("Result value: " + mainModel.getResultValue());
   }
 
   @FXML
   private void handleHelpButton() {
+    logger.info("Button clicked.");
     HelpController helpWindow = new HelpController();
     helpWindow.showHelp();
+    logger.fine("Close success.");
     selectFileButton.requestFocus();
   }
 
   @FXML
   private void handleSelectFileButton() {
-    logger.log(Level.FINE, "Clicked select file button");
+    logger.info("Button clicked.");
     FileChooser chooser = new FileChooser();
     File selectedFile = chooser.showOpenDialog(solveButton.getScene().getWindow());
 
     if (selectedFile != null) {
+      logger.info("Successfully selected file: " + selectedFile);
       selectedFilePathTextField.setText(selectedFile.getAbsolutePath());
       selectFileButton.setDisable(true);
 
@@ -183,13 +189,16 @@ public class MainController implements Initializable {
       // TODO: save file data not path (it's useless)
       // TODO: validate selected file
       mainModel.setFilePath(selectedFile.getAbsolutePath());
+      logger.info("Model file path: " + mainModel.getFilePath());
     } else {
+      logger.warning("File selection cancelled.");
       selectedFilePathTextField.setText("File selection cancelled.");
     }
   }
 
   @FXML
   private void resetStates() {
+    logger.info("Method called.");
     resultTextArea.clear();
     solveButton.setDisable(true);
     solveButton.setDefaultButton(false);
@@ -198,6 +207,7 @@ public class MainController implements Initializable {
 
     selectedFilePathTextField.setText("No file imported.");
     algorithmComboBox.getSelectionModel().select(0);
+    logger.fine("Reset states success.");
   }
 
   /**
@@ -213,6 +223,7 @@ public class MainController implements Initializable {
   // This method is called by the FXMLLoader when initialization is complete
   @Override
   public void initialize(URL location, ResourceBundle resources) {
+    logger.info("Method called.");
     algorithmComboBox.setItems(algorithmList);
     algorithmComboBox.getSelectionModel().select(0);
 
@@ -232,5 +243,6 @@ public class MainController implements Initializable {
     assert optionsButton != null : "fx:id=\"optionsButton\" was not injected: check your FXML file 'mainWindow.fxml'.";
     assert resetAllButton != null : "fx:id=\"resetAllButton\" was not injected: check your FXML file 'mainWindow.fxml'.";
     assert helpButton != null : "fx:id=\"helpButton\" was not injected: check your FXML file 'mainWindow.fxml'.";
+    logger.fine("Initialize success.");
   }
 }

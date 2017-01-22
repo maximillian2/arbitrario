@@ -48,18 +48,10 @@ public class Main {
   private Main(String[] args) {
     this.args = args;
     try {
-      LogManager.getLogManager().readConfiguration(Main.class.getClassLoader().getResourceAsStream("config.properties"));
+      LogManager.getLogManager().readConfiguration(Main.class.getResourceAsStream("/config.properties"));
     } catch (IOException e) {
       e.printStackTrace();
     }
-//        try {
-//      FileHandler fh = new FileHandler(Settings.getInstance().getValue("main.logfile"), true);
-//      fh.setFormatter(new SimpleFormatter());
-//      logger.addHandler(fh);
-//      logger.setLevel(Level.ALL);
-//    } catch (IOException e) {
-//      e.printStackTrace();
-//    }
   }
 
   public static void main(String[] args) {
@@ -67,12 +59,12 @@ public class Main {
   }
 
   private void startProgram() {
-    logger.log(Level.ALL, "Program started");
+    logger.info("Program start");
     try {
       CommandParser cp = new CommandParser();
       JCommander jc = new JCommander(cp, args);
       jc.setProgramName("arbitrario");
-      logger.log(Level.ALL, "Set name");
+      logger.info("Name set");
 
       if (cp.usagePrinted) {
         jc.usage();
@@ -81,16 +73,17 @@ public class Main {
 
       if (cp.guiEnabled) {
         // launches JavaFx application
-        logger.log(Level.ALL, "GUI mode");
+        logger.info("GUI mode");
         javafx.application.Application.launch(ArbitrarioGUI.class);
       } else {
         // launches CLI application
-        logger.log(Level.ALL, "CLI mode");
+        logger.info("CLI mode");
         new ArbitrarioCLI().run(cp);
       }
       // catches exceptions on console parameter setting stage
     } catch (ParameterException e) {
-      logger.log(Level.SEVERE, e.getMessage());
+      logger.severe(e.getMessage());
+      e.printStackTrace();
     }
 
   }

@@ -31,6 +31,8 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 /**
  * Main GUI class
@@ -42,6 +44,7 @@ import java.io.IOException;
 public class ArbitrarioGUI extends Application {
 
   private Stage primaryStage;
+  private final Logger logger = Logger.getLogger(ArbitrarioGUI.class.getName());
 
   public static void main(String[] args) {
     launch(args);
@@ -62,7 +65,7 @@ public class ArbitrarioGUI extends Application {
       loader.setLocation(ArbitrarioGUI.class.getResource("/fxml/mainWindow.fxml"));
 
       HBox rootLayout = loader.load();
-
+      logger.info("MainWindow.fxml load success.");
       // Display scene that contains root layout
       Scene scene = new Scene(rootLayout);
 
@@ -73,10 +76,16 @@ public class ArbitrarioGUI extends Application {
       primaryStage.show();
     } catch (IOException e) {
       e.printStackTrace();
+      logger.severe(e.getMessage());
     }
   }
 
   public ArbitrarioGUI() {
+    try {
+      LogManager.getLogManager().readConfiguration(ArbitrarioGUI.class.getResourceAsStream("/config.properties"));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
 }

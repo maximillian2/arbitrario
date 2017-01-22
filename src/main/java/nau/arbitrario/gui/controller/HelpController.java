@@ -41,6 +41,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 /**
  * JavaFX class to draw help window.
@@ -59,20 +61,31 @@ public class HelpController implements Initializable {
   @FXML // fx:id="authorLink"
   private Hyperlink authorLink; // Value injected by FXMLLoader
 
-  public HelpController() {
+  private final Logger logger = Logger.getLogger(HelpController.class.getName());
+
+  HelpController() {
+    try {
+      LogManager.getLogManager().readConfiguration(HelpController.class.getResourceAsStream("/config.properties"));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   // This method is called by the FXMLLoader when initialization is complete
   @Override
   public void initialize(URL location, ResourceBundle resources) {
+    logger.info("Method called.");
     assert neonProjectLink != null : "fx:id=\"neonProjectLink\" was not injected: check your FXML file 'helpWindow.fxml'.";
     assert githubRealizationLink != null : "fx:id=\"githubRealizationLink\" was not injected: check your FXML file 'helpWindow.fxml'.";
     assert authorLink != null : "fx:id=\"authorLink\" was not injected: check your FXML file 'helpWindow.fxml'.";
+    logger.fine("Initialize success.");
   }
 
   @FXML
   private void handleExitWindow(KeyEvent event) {
+    logger.info("Method entry.");
     if (event.getCode() == KeyCode.ESCAPE || event.getCode() == KeyCode.ENTER) {
+      logger.info("Close keycode: " + event.getCode().getName());
       Stage stage = (Stage) authorLink.getScene().getWindow();
       stage.hide();
     }
@@ -83,6 +96,7 @@ public class HelpController implements Initializable {
     try {
       java.awt.Desktop.getDesktop().browse(new URI("https://github.com/dag4202/TravelingSalesman"));
     } catch (Exception e) {
+      logger.severe(e.getMessage());
       e.printStackTrace();
     }
   }
@@ -92,6 +106,7 @@ public class HelpController implements Initializable {
     try {
       java.awt.Desktop.getDesktop().browse(new URI("https://thenounproject.com/lch121/"));
     } catch (Exception e) {
+      logger.severe(e.getMessage());
       e.printStackTrace();
     }
   }
@@ -101,11 +116,11 @@ public class HelpController implements Initializable {
     try {
       java.awt.Desktop.getDesktop().browse(new URI("https://github.com/maximillian2"));
     } catch (Exception e) {
+      logger.severe(e.getMessage());
       e.printStackTrace();
     }
   }
 
-  // package private method
   void showHelp() {
     try {
       // Load root layout from fxml file
@@ -113,6 +128,7 @@ public class HelpController implements Initializable {
       loader.setLocation(ArbitrarioGUI.class.getResource("/fxml/helpWindow.fxml"));
       loader.setController(this);
       BorderPane helpWindow = loader.load();
+      logger.info("HelpWindow.fxml load success.");
 
       // Display scene that contains root layout
       Stage stage = new Stage();
@@ -123,6 +139,7 @@ public class HelpController implements Initializable {
       stage.setScene(new Scene(helpWindow));
       stage.showAndWait();
     } catch (IOException e) {
+      logger.severe(e.getMessage());
       e.printStackTrace();
     }
   }

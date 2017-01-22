@@ -29,10 +29,12 @@ import nau.arbitrario.travelling_salesman.Graph;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 /**
@@ -41,8 +43,16 @@ import java.util.logging.Logger;
  * @author Maksym Tymoshyk
  */
 public class Util {
-  private static Logger logger = Logger.getLogger(Util.class.getName());
+  private static final Logger logger = Logger.getLogger(Util.class.getName());
   private static Scanner scanner;
+
+  static {
+    try {
+      LogManager.getLogManager().readConfiguration(Util.class.getResourceAsStream("/config.properties"));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 
   /**
    * Parses data from file
@@ -51,19 +61,21 @@ public class Util {
    * @return {@link Graph}
    */
   public static Graph getProblemDataFromFilePath(String filePath) {
+    logger.info("Method entry.");
     List<String> fileLinesList = new ArrayList<>();
     List<Edge> importedEdgesList = new ArrayList<>();
 
     try {
       scanner = new Scanner(new File(filePath));
     } catch (FileNotFoundException e) {
+      logger.severe(e.getMessage());
       e.printStackTrace();
     }
     String currentLine;
     Boolean startLineFound = false, endLineFound = false;
     while (scanner.hasNextLine()) {
       currentLine = scanner.nextLine();
-      System.out.println("Read = " + currentLine);
+      logger.fine("Read line: " + currentLine);
 
       if (startLineFound) {
         if (!endLineFound) {
@@ -72,9 +84,11 @@ public class Util {
       }
 
       if (currentLine.startsWith("DATA")) {
+        logger.fine("DATA marker found");
         startLineFound = true;
       }
       if (currentLine.startsWith("EOF")) {
+        logger.fine("EOF marker found");
         endLineFound = true;
       }
     }
@@ -87,9 +101,9 @@ public class Util {
       importedEdgesList.add(new Edge(Integer.parseInt(parsed[0]), Integer.parseInt(parsed[1]), Double.parseDouble(parsed[2])));
     }
     Graph graph = new Graph(importedEdgesList.size());
-    logger.fine("Created graph with size " + importedEdgesList.size());
+    logger.info("Created graph size: " + importedEdgesList.size());
     graph.updateGraph(Arrays.copyOf(importedEdgesList.toArray(), importedEdgesList.size(), Edge[].class));
-    logger.fine("Filled with values");
+    logger.fine("Value fill success");
     graph.printMatrix();
     return graph;
   }

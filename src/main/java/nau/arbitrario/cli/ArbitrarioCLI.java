@@ -31,8 +31,10 @@ import nau.arbitrario.travelling_salesman.MstTSP;
 import nau.arbitrario.travelling_salesman.OptimalTSP;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 /**
@@ -51,16 +53,21 @@ public class ArbitrarioCLI {
   private Graph data;
   private double result;
 
-  private Logger log;
+  private final Logger logger = Logger.getLogger(ArbitrarioCLI.class.getName());
 
   public ArbitrarioCLI() {
     System.out.println("Welcome to Magma CLI!");
     scanner = new Scanner(System.in);
-    log = Logger.getLogger(ArbitrarioCLI.class.getName());
+
+    try {
+      LogManager.getLogManager().readConfiguration(ArbitrarioCLI.class.getResourceAsStream("/config.properties"));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   /**
-   * Method to launch CLI part
+   * Method to launch CLI mode
    */
   public void run(CommandParser commandParser) {
     this.getData(commandParser);
@@ -81,9 +88,8 @@ public class ArbitrarioCLI {
         result = third.getDistance();
         break;
     }
-
     System.out.println("\nRESULT IS " + result + "\n");
-//        saveDataIfNeeded();
+    logger.info("Result value: " + result);
   }
 
   /**
@@ -95,13 +101,16 @@ public class ArbitrarioCLI {
     try {
       System.out.print("Enter user name: ");
       username = scanner.nextLine();
+      logger.info("Username: " + username);
 
       // getting working data
       if (isFilePathValid(data.importFilePath)) {
         System.out.println("Found file " + data.importFilePath + "...");
+        logger.info("File found: " + data.importFilePath);
         this.data = Util.getProblemDataFromFilePath(data.importFilePath);
       } else {
         System.out.println("No data files found, switching to semi-auto fill mode.");
+        logger.info("No file found, auto mode.");
         this.data = getProblemDataFromConsole();
       }
 
@@ -118,7 +127,7 @@ public class ArbitrarioCLI {
       // default = false
       this.resultSaved = data.resultSaved;
     } catch (Exception e) {
-      log.severe(e.getMessage());
+      logger.severe(e.getMessage());
       System.exit(1);
     }
   }
@@ -134,6 +143,7 @@ public class ArbitrarioCLI {
    */
   @javax.annotation.Nullable
   private Graph getProblemDataFromConsole() {
+    logger.info("Method entry.");
     boolean inputScanned = false;
     Graph graph = null;
     do {
@@ -149,9 +159,10 @@ public class ArbitrarioCLI {
         graph = new Graph(n);
         inputScanned = true;
       } catch (InputMismatchException | NumberFormatException | BigVerticesNumberException e) {
-        log.severe(e.getMessage());
+        logger.severe(e.getMessage());
       }
     } while (!inputScanned);
+    logger.info("Method success.");
     return graph;
   }
 

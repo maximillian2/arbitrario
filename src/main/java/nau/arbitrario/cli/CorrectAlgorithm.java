@@ -28,6 +28,10 @@ import com.beust.jcommander.IParameterValidator;
 import com.beust.jcommander.ParameterException;
 import nau.arbitrario.Settings;
 
+import java.io.IOException;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+
 /**
  * Class to validate algorithm number given as command-line parameter.
  *
@@ -36,6 +40,17 @@ import nau.arbitrario.Settings;
  * @see IParameterValidator
  */
 public class CorrectAlgorithm implements IParameterValidator {
+
+  private final Logger logger = Logger.getLogger(CorrectAlgorithm.class.getName());
+
+  CorrectAlgorithm() {
+    try {
+      LogManager.getLogManager().readConfiguration(CorrectAlgorithm.class.getResourceAsStream("/config.properties"));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
   /**
    * Checks parameter and its value to be in valid range
    *
@@ -55,6 +70,7 @@ public class CorrectAlgorithm implements IParameterValidator {
         Exception e)
 
     {
+      logger.severe(e.getMessage());
       e.printStackTrace();
     }
   }

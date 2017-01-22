@@ -24,9 +24,12 @@
 
 package nau.arbitrario.travelling_salesman;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Random;
 import java.util.Stack;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 /**
  * @author Dyangelo Grullon (dag4202)
@@ -40,6 +43,8 @@ public class Graph {
   private int E; //The number of edges
   private int[][] vertices; // Represented as an array of arrays holding x,y pairs in order of vertex number
   private Edge[] edges; //Encapsulates the edges in an array of edges
+
+  private final Logger logger = Logger.getLogger(Graph.class.getName());
 
   /**
    * Builder function for a matrix representing a completely connected euclidean graph.
@@ -81,6 +86,13 @@ public class Graph {
         count++;
       }
     }
+
+
+    try {
+      LogManager.getLogManager().readConfiguration(Graph.class.getResourceAsStream("/config.properties"));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   /**
@@ -97,6 +109,7 @@ public class Graph {
       graph[edge.getRow()][edge.getCol()] = edge.getWeight();
       graph[edge.getCol()][edge.getRow()] = edge.getWeight();
     }
+    logger.info("Graph update by edges success.");
   }
 
   /**
@@ -108,6 +121,8 @@ public class Graph {
   public void updateGraph(Vertex vertex) {
     graph[vertex.id][vertex.parent] = vertex.weight;
     graph[vertex.parent][vertex.id] = vertex.weight;
+
+    logger.info("Graph update by vertex success.");
   }
 //
 //	/**
@@ -220,6 +235,8 @@ public class Graph {
         }
       }
     }
+
+    logger.info("DFS method success.");
     return path;
   }
 
