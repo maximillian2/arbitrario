@@ -107,34 +107,4 @@ public class Util {
     graph.printMatrix();
     return graph;
   }
-
-//  /**
-//   * Saves necessary result data to database
-//   *
-//   * @param username        current program's user name
-//   * @param algorithmNumber used algorithm number
-//   * @param result          float result value
-//   */
-//  public void saveResultToDatabase(String username, int algorithmNumber, double result) {
-//    try {
-//      Class.forName("org.sqlite.JDBC");
-//      String connection = "jdbc:sqlite:results.db";
-//      logger.info("Connection: " + connection);
-//      Connection c = DriverManager.getConnection(connection);
-//      c.setAutoCommit(false);
-//      logger.info("Opened database successfully");
-//      PreparedStatement stmt = c.prepareStatement("insert into sample(username, algo, result) values(?,?,?)");
-//      stmt.setString(1, username);
-//      stmt.setInt(2, algorithmNumber);
-//      stmt.setDouble(3, result);
-//      stmt.executeUpdate();
-//      logger.info("Records created successfully");
-//
-//      c.commit();
-//      c.close();
-//    } catch (Exception e) {
-//      logger.severe(e.getClass().getName() + ": " + e.getMessage());
-//      System.exit(0);
-//    }
-//  }
 }

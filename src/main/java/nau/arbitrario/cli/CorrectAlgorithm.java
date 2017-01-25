@@ -43,7 +43,7 @@ public class CorrectAlgorithm implements IParameterValidator {
 
   private final Logger logger = Logger.getLogger(CorrectAlgorithm.class.getName());
 
-  CorrectAlgorithm() {
+  public CorrectAlgorithm() {
     try {
       LogManager.getLogManager().readConfiguration(CorrectAlgorithm.class.getResourceAsStream("/config.properties"));
     } catch (IOException e) {

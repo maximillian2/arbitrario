@@ -45,7 +45,7 @@ public class Main {
   private String[] args;
   private final Logger logger = Logger.getLogger(Main.class.getName());
 
-  private Main(String[] args) {
+  public Main(String[] args) {
     this.args = args;
     try {
       LogManager.getLogManager().readConfiguration(Main.class.getResourceAsStream("/config.properties"));
@@ -55,6 +55,9 @@ public class Main {
   }
 
   public static void main(String[] args) {
+    for(String s : args) {
+      System.out.println(s);
+    }
     new Main(args).startProgram();
   }
 
@@ -74,11 +77,13 @@ public class Main {
       if (cp.guiEnabled) {
         // launches JavaFx application
         logger.info("GUI mode");
-        javafx.application.Application.launch(ArbitrarioGUI.class);
+        System.out.println("GUI mode");
+//        javafx.application.Application.launch(ArbitrarioGUI.class);
       } else {
         // launches CLI application
         logger.info("CLI mode");
-        new ArbitrarioCLI().run(cp);
+        System.out.println("CLI mode");
+//        new ArbitrarioCLI().run(cp);
       }
       // catches exceptions on console parameter setting stage
     } catch (ParameterException e) {

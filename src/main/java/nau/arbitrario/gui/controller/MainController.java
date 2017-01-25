@@ -58,7 +58,7 @@ import java.util.logging.Logger;
 public class MainController implements Initializable {
 
   private MainModel mainModel = new MainModel();
-  private ArbitrarioGUI app;
+//  private ArbitrarioGUI app;
   private ObservableList<String> algorithmList = FXCollections.observableArrayList();
   private final Logger logger = Logger.getLogger(MainController.class.getName());
 
@@ -107,7 +107,6 @@ public class MainController implements Initializable {
    */
   @FXML
   private void handleSolveProblem() {
-    // TODO: save result somewhere if it's second time using the algo then reset
     logger.info("Button clicked.");
 
     resultTextArea.appendText("Using " + algorithmComboBox.getSelectionModel().getSelectedItem() + " algorithm\n");
@@ -189,7 +188,6 @@ public class MainController implements Initializable {
       solveButton.setDefaultButton(true);
       solveButton.requestFocus();
 
-      // TODO: save file data not path (it's useless)
       // TODO: validate selected file
       mainModel.setFilePath(selectedFile.getAbsolutePath());
       logger.info("Model file path: " + mainModel.getFilePath());
@@ -213,15 +211,14 @@ public class MainController implements Initializable {
     logger.fine("Reset states success.");
   }
 
-  /**
-   * Is called by the main application to give a reference back to itself.
-   * <p>
-   * //   * @param mainApp object of {@link javafx.application.Application}
-   */
-  // TODO: wtf this working while commented
-  public void setMainApp(ArbitrarioGUI mainApp) {
-    this.app = mainApp;
-  }
+//  /**
+//   * Is called by the main application to give a reference back to itself.
+//   * <p>
+//   * //   * @param mainApp object of {@link javafx.application.Application}
+//   */
+//  public void setMainApp(ArbitrarioGUI mainApp) {
+//    this.app = mainApp;
+//  }
 
   // This method is called by the FXMLLoader when initialization is complete
   @Override

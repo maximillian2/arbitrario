@@ -35,6 +35,8 @@ import javafx.beans.property.StringProperty;
  * @author Maksym Tymoshyk
  * @version 1.0
  */
+
+// TODO: make authorization window
 public class AuthModel {
   private final StringProperty userName;
   private final StringProperty institutionAbbrv;

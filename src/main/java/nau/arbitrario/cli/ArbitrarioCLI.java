@@ -24,6 +24,7 @@
 
 package nau.arbitrario.cli;
 
+import nau.arbitrario.Settings;
 import nau.arbitrario.Util;
 import nau.arbitrario.travelling_salesman.Graph;
 import nau.arbitrario.travelling_salesman.GreedyTSP;
@@ -48,7 +49,6 @@ public class ArbitrarioCLI {
 
   private String username;
   private Integer algorithmNumber;
-  private Boolean resultSaved;
 
   private Graph data;
   private double result;
@@ -116,16 +116,13 @@ public class ArbitrarioCLI {
 
       // getting algorithm number
       if (data.algorithmNumber == null) {
-        // TODO: show number of algorithms in help message before any actions
+        System.out.println("Available: " + Settings.getInstance().getValue("main.algorithms"));
         System.out.print("Enter algorithm number: ");
         this.algorithmNumber = Integer.parseInt(scanner.nextLine());
       } else {
         this.algorithmNumber = data.algorithmNumber;
       }
       new CorrectAlgorithm().validate("algorithm number", String.valueOf(this.algorithmNumber)); // pesky?
-
-      // default = false
-      this.resultSaved = data.resultSaved;
     } catch (Exception e) {
       logger.severe(e.getMessage());
       System.exit(1);
@@ -150,10 +147,8 @@ public class ArbitrarioCLI {
       try {
         System.out.print("Enter number of vertices: ");
         int n = Integer.parseInt(scanner.nextLine());
-        // TODO: make magic with "magic" numbers
         // TODO: make fully "automated" input mode with random vertices number
-        // TODO: if input is abrupted make randomised graph
-        if (n < 0 || n > 13) {
+        if (n < 0 || n > Integer.valueOf(Settings.getInstance().getValue("main.max_vertices"))) {
           throw new BigVerticesNumberException("Violated vertices number (got " + n + ")");
         }
         graph = new Graph(n);
@@ -165,10 +160,4 @@ public class ArbitrarioCLI {
     logger.info("Method success.");
     return graph;
   }
-
-//    private void saveDataIfNeeded() {
-//        if (resultSaved) {
-//            new Util().saveResultToDatabase(this.username, this.algorithmNumber, this.result);
-//        }
-//    }
 }
