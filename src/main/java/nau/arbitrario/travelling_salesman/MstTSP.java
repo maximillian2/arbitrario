@@ -41,6 +41,16 @@ public class MstTSP {
 
   private double distance;
 
+  public StringBuilder getBuilder() {
+    return builder;
+  }
+
+  private StringBuilder builder;
+
+  public MstTSP() {
+    builder = new StringBuilder();
+  }
+
   /**
    * @author Dyangelo Grullon
    *         <p>
@@ -212,7 +222,9 @@ public class MstTSP {
       System.out.print("Minimum Spanning Tree:");
       mst.printMatrix();
       System.out.printf("Total weight of mst: %s\n\n", df.format(total));
+      builder.append("Total weight of mst: ").append(df.format(total)).append("\n\n");
       System.out.println("Pre-order traversal: ");
+      builder.append("Pre-order traversal: \n");
     }
     start = System.currentTimeMillis(); //after printing is done, measure again
     int[] path = mst.DFS(0); //use dfs to get the preorder path
@@ -225,9 +237,13 @@ public class MstTSP {
     if (graph.getN() <= 10) System.out.println();
     elapsed += end - start;
     System.out.printf("Distance using mst: %s for path ", df.format(distance));
+    builder.append("Distance using mst: ").append(df.format(distance)).append(" for path ");
     for (int i = 0; i <= graph.getN(); i++) {
       System.out.printf("%d ", path[i]);
+      builder.append(path[i]).append(" ");
     }
 
+    System.out.println("\nElapsed: " + elapsed + " ms\n");
+    builder.append("Elapsed: ").append(elapsed).append(" ms\n");
   }
 }

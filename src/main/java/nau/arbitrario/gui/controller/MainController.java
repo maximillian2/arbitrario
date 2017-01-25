@@ -138,6 +138,7 @@ public class MainController implements Initializable {
         for (Edge e : first.printEdges(mainModel.getData())) {
           resultTextArea.appendText(e.toString() + "\n");
         }
+        resultTextArea.appendText(first.getBuilder().toString());
         mainModel.setResultValue(first.getBestDistance());
         break;
       case 2:
@@ -146,6 +147,7 @@ public class MainController implements Initializable {
         for (Edge e : second.getEdges(mainModel.getData())) {
           resultTextArea.appendText(e.toString() + "\n");
         }
+        resultTextArea.appendText(second.getBuilder().toString());
         mainModel.setResultValue(second.getDistance());
         break;
       case 3:
@@ -154,6 +156,7 @@ public class MainController implements Initializable {
         for (Edge e : third.getEdges(mainModel.getData())) {
           resultTextArea.appendText(e.toString() + "\n");
         }
+        resultTextArea.appendText(third.getBuilder().toString());
         mainModel.setResultValue(third.getDistance());
         break;
     }

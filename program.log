@@ -1,10 +1,10 @@
-Jan 22, 2017 1:51:58 PM nau.arbitrario.Util getProblemDataFromFilePath
+Jan 25, 2017 2:01:00 PM nau.arbitrario.Util getProblemDataFromFilePath
 INFO: Created graph size: 15
-Jan 22, 2017 1:51:58 PM nau.arbitrario.travelling_salesman.Graph updateGraph
+Jan 25, 2017 2:01:00 PM nau.arbitrario.travelling_salesman.Graph updateGraph
 INFO: Graph update by edges success.
-Jan 22, 2017 1:51:58 PM nau.arbitrario.gui.controller.MainController solveProblem
-INFO: File data set success
-Jan 22, 2017 1:51:58 PM nau.arbitrario.travelling_salesman.Graph DFS
+Jan 25, 2017 2:01:00 PM nau.arbitrario.gui.controller.MainController solveProblem
+INFO: File data set success.
+Jan 25, 2017 2:01:00 PM nau.arbitrario.travelling_salesman.Graph DFS
 INFO: DFS method success.
-Jan 22, 2017 1:51:58 PM nau.arbitrario.gui.controller.MainController solveProblem
+Jan 25, 2017 2:01:00 PM nau.arbitrario.gui.controller.MainController solveProblem
 INFO: Result value: 11.88

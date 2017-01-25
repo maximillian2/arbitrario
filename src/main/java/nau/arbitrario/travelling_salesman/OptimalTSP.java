@@ -33,11 +33,18 @@ import java.util.Arrays;
  *         by finding all permutations of possible paths and determining the lowest distance of all paths
  */
 public class OptimalTSP {
-
-
   private static DecimalFormat df = new DecimalFormat("0.00");
   private double bestDistance;
 
+  public StringBuilder getBuilder() {
+    return builder;
+  }
+
+  private StringBuilder builder;
+
+  public OptimalTSP() {
+    builder = new StringBuilder();
+  }
   /**
    * Permutation algorithm which determines the next lexicographically ordered permutation of a path
    *
@@ -131,12 +138,6 @@ public class OptimalTSP {
   }
 
   public void solveGraph(Graph graph) {
-
-//	if (N < 1 || N > 13){ //the check to see if the number of vertices is not below 1 or exceeds 13
-//		System.out.println("Number of vertices must be between 1 and 13");
-//		System.exit(0);
-//	};
-// creates the graph with the given N and seed
     int[] permutations = new int[graph.getN() - 1]; // a new array to represent a path without vertex 0
     int total = 1; //the base value to determine the total number of permutaions.
     //The variable 'total' represents (N-1)!
@@ -166,14 +167,18 @@ public class OptimalTSP {
     }
 
     System.out.printf("\nOptimal distance: %s for path 0", df.format(best));
+    builder.append("\nOptimal distance: ").append(best).append(" for path 0\n");
     setBestDistance(best);
 
     for (int i = 0; i < graph.getN() - 1; i++) {
       System.out.printf(" %d", bestPath[i]);
+      builder.append(" ").append(bestPath[i]);
     }
     System.out.println(" 0");
+    builder.append(" 0\n");
     long end = System.currentTimeMillis();
     System.out.printf("Runtime for optimal TSP   : %d milliseconds\n\n", end - start);
+    builder.append("Runtime for optimal TSP   : ").append(end-start).append(" milliseconds\n\n");
   }
 
   public double getBestDistance() {

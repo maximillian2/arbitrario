@@ -53,7 +53,6 @@ import java.text.DecimalFormat;
  *         Part 2 of the Traveling Salesman Problem. Obtains the greedy path of a completely connected euclidean graph
  */
 public class GreedyTSP {
-
   private static DecimalFormat df = new DecimalFormat("0.00");
 
   public double getDistance() {
@@ -61,6 +60,12 @@ public class GreedyTSP {
   }
 
   private double distance;
+
+  public StringBuilder getBuilder() {
+    return builder;
+  }
+
+  private StringBuilder builder;
 
   /**
    * A private, helper class that implements quick sort to sort an array of edges
@@ -242,6 +247,10 @@ public class GreedyTSP {
 
   }
 
+  public GreedyTSP() {
+    builder = new StringBuilder();
+  }
+
   public Edge[] getEdges(Graph graph) {
     return graph.getEdges();
   }
@@ -284,6 +293,7 @@ public class GreedyTSP {
       }
       pos++; //increment the position in the edges array
     }
+    //hangs app
 //		graph.updateGraph(MST); //convert original graph to greedy graph
 
     if (graph.getN() <= 10) { //if the number of vertices is less than 10, then print the vertices and the matrix
@@ -295,11 +305,15 @@ public class GreedyTSP {
       }
       System.out.println();
     }
-		int[] path = graph.DFS(0); //find the path in the greedy graph
+    int[] path = graph.DFS(0); //find the path in the greedy graph
     System.out.printf("Distance using greedy: %s for path ", df.format(distance));
-		for (int i = 0; i <= graph.getN() ; i++){
-			System.out.printf("%d ", path[i]);
-		}
+    builder.append("Distance using greedy: ").append(df.format(distance)).append(" for path ");
+    for (int i = 0; i <= graph.getN(); i++) {
+      System.out.printf("%d ", path[i]);
+      builder.append(path[i]).append(" ");
+    }
     long end = System.currentTimeMillis();
+    System.out.println("Elapsed: " + (end - start) + "ms");
+    builder.append("\nElapsed: ").append(end - start).append("ms\n");
   }
 }

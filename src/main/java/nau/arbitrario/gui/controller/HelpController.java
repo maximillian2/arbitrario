@@ -91,6 +91,9 @@ public class HelpController implements Initializable {
     }
   }
 
+  /**
+   * Open github link to author of algorithms' realizations in default browser.
+   */
   @FXML
   private void handleGithubRealizationLink() {
     try {
@@ -101,6 +104,9 @@ public class HelpController implements Initializable {
     }
   }
 
+  /**
+   * Open link to author of program icon in default browser due to use license.
+   */
   @FXML
   private void handleNeonProjectLink() {
     try {
@@ -111,6 +117,9 @@ public class HelpController implements Initializable {
     }
   }
 
+  /**
+   * Open github link to author of application in default browser.
+   */
   @FXML
   private void handleAuthorLink() {
     try {
