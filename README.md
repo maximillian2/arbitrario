@@ -1,22 +1,43 @@
-![Magma Image](https://photos-6.dropbox.com/t/2/AADHnRDNM52pIMWjt0pSDMscCxf2_72Hi0KJSe_oFUDcpQ/12/39946975/png/32x32/1/_/1/2/magma-text.png/EL-avR4YzPEFIAcoBw/A1nOe278pR4hzRqGld6ZOQdFgdgm1F-IRuyZzimvXpg?size=2048x1536&size_mode=3)
+# Arbitrario 
 
-### Magma is an application that can help solving combinatoric optimized problems
+## Easy solve combinatoric optimized problems
 
-Version: 1.0-alpha
+Version: 1.5
 
-### What's inside? ###
+### What's inside? 
 
-* 3 realizations of travelling salesman problem ([@dag4202](https://github.com/dag4202))
-* CLI mode
+* **3 realizations of travelling salesman problem** ([@dag4202](https://github.com/dag4202))
+    - Optimal TSP
+    - Greedy TSP
+    - Minimal Spanning Tree TSP
+* **CLI mode**
     - jCommander to parse command-line keys
-* GUI mode
-    - JavaFx as GUI framework
-* SQLite database to hold calculated results
-* Import data from file
-* JAR packaged application
+* **GUI mode**
+    - JavaFX as GUI framework
+* **properties file for precise configuration**
+* **logging**
+* **file import**
+* **cross-platform application (JAR)**
 
-### TODOs ###
+### TODOs 
 
-* Tests
-* Add fourth realization of problem
-* Rework JavaFx main window to freely resize its content
+* test coverage (JUnit + TestFX)
+* add fourth problem realization
+* add platform based packages
+* file export
+
+### Install
+
+Download here: [version 1.5 (current)](https://bitbucket.org/cod3zer0/magma/downloads/magma.one-jar.jar)
+
+### Start using!
+
+`java -jar magma.one-jar.jar`
+
+`--help` - shows use cases
+
+### Contact
+* Algorithms - [@dag4202](https://github.com/dag4202)
+* GUI/CLI wrapper - [@codez3r0](https://bitbucket.org/cod3zer0/)
+* Icons - [@NeonProject](https://thenounproject.com/lch121/)
+
