@@ -1,10 +1,10 @@
-# Arbitrario 
+# Arbitrario
 
-## Easy solve combinatoric optimized problems
+## Easily solve combinatoric optimized problems
 
-Version: 1.5
+Version: **1.5**
 
-### What's inside? 
+### ![Hat](src/main/resources/images/spanish/hat.png) What's inside?
 
 * **3 realizations of travelling salesman problem** ([@dag4202](https://github.com/dag4202))
     - Optimal TSP
@@ -14,30 +14,42 @@ Version: 1.5
     - jCommander to parse command-line keys
 * **GUI mode**
     - JavaFX as GUI framework
-* **properties file for precise configuration**
+* **properties file**
+    - Maximum vertices number
+    - Algorithm names
+    - precise logging configuration
 * **logging**
 * **file import**
 * **cross-platform application (JAR)**
 
-### TODOs 
+### ![Ball](src/main/resources/images/spanish/ball.png) TODOs
 
 * test coverage (JUnit + TestFX)
 * add fourth problem realization
 * add platform based packages
 * file export
 
-### Install
+### ![Meat](src/main/resources/images/spanish/meat.png) Install
 
 Download here: [version 1.5 (current)](https://bitbucket.org/cod3zer0/magma/downloads/magma.one-jar.jar)
 
-### Start using!
+### ![Bull](src/main/resources/images/spanish/bull.png) Usage:
 
 `java -jar magma.one-jar.jar`
 
-`--help` - shows use cases
+### ![Guitar](src/main/resources/images/spanish/guitar.png) Options:
 
-### Contact
+    --algorithm, -al number
+      Specify active algorithm
+    --gui
+      Launch with graphical interface
+      Default: false
+    --import, -i
+      Import data from external file
+    --help, --usage
+      Print this message
+
+### ![Drink](src/main/resources/images/spanish/drink.png) Contact
 * Algorithms - [@dag4202](https://github.com/dag4202)
 * GUI/CLI wrapper - [@codez3r0](https://bitbucket.org/cod3zer0/)
 * Icons - [@NeonProject](https://thenounproject.com/lch121/)
-
