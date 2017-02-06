@@ -22,41 +22,41 @@
  * SOFTWARE.
  */
 
-import nau.arbitrario.Main;
-import org.junit.After;
-import org.junit.Assert;
+package nau.arbitrario;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
-/**
- * Created by Maksym Tymoshyk on 1/25/17.
- */
 public class MainTest {
-
-  private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+  private Launcher launcher;
 
   @Before
-  public void setUpStreams() {
-    System.setOut(new PrintStream(outContent));
+  public void setup() {
+    launcher = Mockito.mock(Launcher.class);
   }
 
   @Test
-  public void checkGUI() {
-    String[] args = {"--gui"};
-    Main.main(args);
-    Assert.assertEquals("GUI mode", outContent.toString());
+  public void runWithHelpArgument() {
+    String[] helpArg = new String[]{"--help"};
+
+    int result = launcher.run(helpArg);
+    Mockito.verify(launcher).run(helpArg);
   }
 
   @Test
-  public void checkCLI() {
+  public void runWithArguments() {
+    String[] sampleArgs = new String[]{"-al", "2"};
 
+    int result = launcher.run(sampleArgs);
+    Mockito.verify(launcher).run(sampleArgs);
   }
 
-  @After
-  public void cleanUpStreams() {
-    System.setOut(null);
+  @Test
+  public void runWithoutArguments() {
+    String[] emptyArgs = new String[]{};
+
+    int result = launcher.run(emptyArgs);
+    Mockito.verify(launcher).run(emptyArgs);
   }
 }

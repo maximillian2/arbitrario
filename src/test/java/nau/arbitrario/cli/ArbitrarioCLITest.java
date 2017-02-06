@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2016 Maksym Tymoshyk
+ * Copyright (c) 2017 Maksym Tymoshyk
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,27 +22,34 @@
  * SOFTWARE.
  */
 
-package nau.arbitrario;
+package nau.arbitrario.cli;
 
-import com.beust.jcommander.JCommander;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
 
-/**
- * Initial class
- *
- * @author Maksym Tymoshyk
- * @see JCommander
- */
-public class Main {
-  private static Launcher launcher = new Launcher();
+public class ArbitrarioCLITest {
 
-  public static void setLauncher(Launcher launcher) {
-    Main.launcher = launcher;
+  private CommandParser parser;
+  private ArbitrarioCLI cli;
+
+  @Before
+  public void setup() {
+    parser = Mockito.mock(CommandParser.class);
+    cli = Mockito.mock(ArbitrarioCLI.class);
   }
 
-  public Main() {
-  }
+  @Test
+  public void testRun() {
+    parser.algorithmNumber = 2;
+    Assert.assertEquals(2, parser.algorithmNumber.intValue());
 
-  public static void main(String[] args) {
-    launcher.run(args);
+    Mockito.when(cli.run(parser)).thenReturn(2.65);
+
+    double result = cli.run(parser);
+    Mockito.verify(cli).run(parser);
+
+    Assert.assertEquals(2.65, result, 0.001);
   }
 }

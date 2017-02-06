@@ -69,7 +69,7 @@ public class ArbitrarioCLI {
   /**
    * Method to launch CLI mode
    */
-  public void run(CommandParser commandParser) {
+  public double run(CommandParser commandParser) {
     this.getData(commandParser);
     switch (algorithmNumber) {
       case 1:
@@ -90,6 +90,8 @@ public class ArbitrarioCLI {
     }
     System.out.println("\nRESULT IS " + result + "\n");
     logger.info("Result value: " + result);
+
+    return result;
   }
 
   /**
